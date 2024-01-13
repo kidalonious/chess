@@ -61,6 +61,8 @@ public class ChessPiece {
         int col = myPosition.getColumn();
 
         switch (currPieceType) {
+            case QUEEN:
+                break;
             case BISHOP:
                 row++;
                 col++;
@@ -110,6 +112,16 @@ public class ChessPiece {
                     row++;
                     col--;
                 }
+                break;
+            case KNIGHT:
+                break;
+            case ROOK:
+                break;
+            case PAWN:
+                break;
+            case KING:
+                break;
+            default:
                 break;
         }
         return possibleMoves;

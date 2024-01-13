@@ -61,56 +61,54 @@ public class ChessPiece {
         int col = myPosition.getColumn();
 
         switch (currPieceType) {
-            case KING:
-            {
-            }
-
             case BISHOP:
+                row++;
+                col++;
                 while (row < 8 && col < 8) {
                     //Diagonally up + right, row:addition col:addition
-                    row++;
-                    col++;
                     ChessPosition checkSquare = new ChessPosition(row, col);
                     if (board.getPiece(checkSquare).getPieceType() == null) {
                         ChessMove possibleMove = new ChessMove(myPosition, checkSquare, null);
                         possibleMoves.add(possibleMove);
                     }
+                    row++;
+                    col++;
                 }
-                row = myPosition.getRow();
-                col = myPosition.getColumn();
+                row = myPosition.getRow() - 1;
+                col = myPosition.getColumn() - 1;
                 while (row >= 0 && col >= 0) {
                     //Diagonally down + left, row:subtraction col:subtraction
-                    row--;
-                    col--;
                     ChessPosition checkSquare = new ChessPosition(row, col);
                     if (board.getPiece(checkSquare).getPieceType() == null) {
                         ChessMove possibleMove = new ChessMove(myPosition, checkSquare, null);
                         possibleMoves.add(possibleMove);
                     }
+                    row--;
+                    col--;
                 }
-                row = myPosition.getRow();
-                col = myPosition.getColumn();
+                row = myPosition.getRow() - 1;
+                col = myPosition.getColumn() + 1;
                 while (row < 8 && col >= 0) {
                     //Diagonally down + right, row:addition col:subtraction
-                    row++;
-                    col--;
                     ChessPosition checkSquare = new ChessPosition(row, col);
                     if (board.getPiece(checkSquare).getPieceType() == null) {
                         ChessMove possibleMove = new ChessMove(myPosition, checkSquare, null);
                         possibleMoves.add(possibleMove);
                     }
-                }
-                row = myPosition.getRow();
-                col = myPosition.getColumn();
-                while (row >= 0 && col < 8) {
-                    //Diagonally up + left, row:subtraction col:addition
                     row--;
                     col++;
+                }
+                row = myPosition.getRow() + 1;
+                col = myPosition.getColumn() + 1;
+                while (row >= 0 && col < 8) {
+                    //Diagonally up + left, row:addition col:subtraction
                     ChessPosition checkSquare = new ChessPosition(row, col);
                     if (board.getPiece(checkSquare).getPieceType() == null) {
                         ChessMove possibleMove = new ChessMove(myPosition, checkSquare, null);
                         possibleMoves.add(possibleMove);
                     }
+                    row++;
+                    col--;
                 }
                 break;
         }

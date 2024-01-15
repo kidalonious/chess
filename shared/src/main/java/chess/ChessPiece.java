@@ -55,18 +55,18 @@ public class ChessPiece {
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         ArrayList<ChessMove> possibleMoves = new ArrayList<>();
+        int row;
+        int col;
         ChessPiece currPiece = board.getPiece(myPosition);
         PieceType currPieceType = currPiece.getPieceType();
-        int row = myPosition.getRow();
-        int col = myPosition.getColumn();
 
         switch (currPieceType) {
             case QUEEN:
                 break;
             case BISHOP:
-                row++;
-                col++;
-                while (row < 8 && col < 8) {
+                row = myPosition.getRow() + 1;
+                col = myPosition.getColumn() + 1;
+                while (row <= 8 && col <= 8) {
                     //Diagonally up + right, row:addition col:addition
                     ChessPosition checkSquare = new ChessPosition(row, col);
                     if (board.getPiece(checkSquare).getPieceType() == null) {
@@ -78,7 +78,7 @@ public class ChessPiece {
                 }
                 row = myPosition.getRow() - 1;
                 col = myPosition.getColumn() - 1;
-                while (row >= 0 && col >= 0) {
+                while (row > 0 && col > 0) {
                     //Diagonally down + left, row:subtraction col:subtraction
                     ChessPosition checkSquare = new ChessPosition(row, col);
                     if (board.getPiece(checkSquare).getPieceType() == null) {
@@ -90,7 +90,7 @@ public class ChessPiece {
                 }
                 row = myPosition.getRow() - 1;
                 col = myPosition.getColumn() + 1;
-                while (row < 8 && col >= 0) {
+                while (row <= 8 && col > 0) {
                     //Diagonally down + right, row:addition col:subtraction
                     ChessPosition checkSquare = new ChessPosition(row, col);
                     if (board.getPiece(checkSquare).getPieceType() == null) {
@@ -102,7 +102,7 @@ public class ChessPiece {
                 }
                 row = myPosition.getRow() + 1;
                 col = myPosition.getColumn() + 1;
-                while (row >= 0 && col < 8) {
+                while (row > 0 && col <= 8) {
                     //Diagonally up + left, row:addition col:subtraction
                     ChessPosition checkSquare = new ChessPosition(row, col);
                     if (board.getPiece(checkSquare).getPieceType() == null) {

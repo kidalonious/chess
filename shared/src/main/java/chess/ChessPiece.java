@@ -56,8 +56,10 @@ public class ChessPiece {
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         ArrayList<ChessMove> possibleMoves = new ArrayList<>();
         ChessPiece currPiece = board.getPiece(myPosition);
+        if (currPiece == null) {
+            return possibleMoves;
+        }
         //PieceType currPieceType = currPiece.getPieceType();
-
         switch (currPiece.getPieceType()) {
             case QUEEN:
                 possibleMoves = (ArrayList<ChessMove>) queenMoves(board, myPosition, possibleMoves);
@@ -66,6 +68,7 @@ public class ChessPiece {
                 possibleMoves = (ArrayList<ChessMove>) bishopMoves(board, myPosition, possibleMoves);
                 break;
             case KNIGHT:
+                possibleMoves = (ArrayList<ChessMove>) knightMoves(board, myPosition, possibleMoves);
                 break;
             case ROOK:
                 possibleMoves = (ArrayList<ChessMove>) rookMoves(board, myPosition, possibleMoves);
@@ -80,7 +83,7 @@ public class ChessPiece {
         return possibleMoves;
     }
 
-    Collection<ChessMove> bishopMoves(ChessBoard board, ChessPosition myPosition, Collection<ChessMove> possibleMoves) {
+    public Collection<ChessMove> bishopMoves(ChessBoard board, ChessPosition myPosition, Collection<ChessMove> possibleMoves) {
         int row = myPosition.getRow() + 1;
         int col = myPosition.getColumn() + 1;
         while (row <= 8 && col <= 8) {
@@ -117,7 +120,7 @@ public class ChessPiece {
         return possibleMoves;
     }
 
-    Collection<ChessMove> rookMoves(ChessBoard board, ChessPosition myPosition, Collection<ChessMove> possibleMoves) {
+    public Collection<ChessMove> rookMoves(ChessBoard board, ChessPosition myPosition, Collection<ChessMove> possibleMoves) {
         //up, row:addition
         int row = myPosition.getRow() + 1;
         while (row <= 8) {
@@ -145,13 +148,72 @@ public class ChessPiece {
         return possibleMoves;
     }
 
-    Collection<ChessMove> queenMoves(ChessBoard board, ChessPosition myPosition, Collection<ChessMove> possibleMoves) {
+    public Collection<ChessMove> queenMoves(ChessBoard board, ChessPosition myPosition, Collection<ChessMove> possibleMoves) {
         Collection<ChessMove> diagonalMoves = bishopMoves(board, myPosition, possibleMoves);
         Collection<ChessMove> lineMoves = rookMoves(board, myPosition, possibleMoves);
         possibleMoves.addAll(diagonalMoves);
         possibleMoves.addAll(lineMoves);
         return possibleMoves;
     }
+
+    public Collection<ChessMove> knightMoves(ChessBoard board, ChessPosition myPosition, Collection<ChessMove> possibleMoves) {
+        //Knight's theoretically have 8 possible moves on an empty board from the center
+        //Finding in a loop will likely not work either because moves aren't dependent on a path like other pieces
+        //up 2, right 1
+        int row = myPosition.getRow() + 2;
+        int col = myPosition.getColumn() + 1;
+        if (row <= 8 && col <= 8) {
+            addMove(row, col, possibleMoves, myPosition, board);
+        }
+        //reset, check: up 1, right 2
+        row = myPosition.getRow() + 1;
+        col = myPosition.getColumn() + 2;
+        if (row <= 8 && col <= 8) {
+            addMove(row, col, possibleMoves, myPosition, board);
+        }
+        //reset, check: up 2, left 1
+        row = myPosition.getRow() + 2;
+        col = myPosition.getColumn() - 1;
+        if (row <= 8 && col > 0) {
+            addMove(row, col, possibleMoves, myPosition, board);
+        }
+        //reset, check: up 1, left 2
+        row = myPosition.getRow() + 1;
+        col = myPosition.getColumn() - 2;
+        if (row <= 8 && col > 0) {
+            addMove(row, col, possibleMoves, myPosition, board);
+        }
+        //reset, check: down 2, left 1
+        row = myPosition.getRow() - 2;
+        col = myPosition.getColumn() - 1;
+        if (row > 0 && col > 0) {
+            addMove(row, col, possibleMoves, myPosition, board);
+        }
+        //reset, check: down 1, left 2
+        row = myPosition.getRow() - 1;
+        col = myPosition.getColumn() - 2;
+        if (row > 8 && col > 8) {
+            addMove(row, col, possibleMoves, myPosition, board);
+        }
+        //reset, check: down 2, right 1
+        row = myPosition.getRow() - 2;
+        col = myPosition.getColumn() + 1;
+        if (row > 0 && col <= 8) {
+            addMove(row, col, possibleMoves, myPosition, board);
+        }
+        //reset, check: down 1, right 2
+        row = myPosition.getRow() - 1;
+        col = myPosition.getColumn() + 2;
+        if (row <= 8 && col <= 8) {
+            addMove(row, col, possibleMoves, myPosition, board);
+        }
+        return possibleMoves;
+    }
+
+    public Collection<ChessMove> pawnMoves(ChessBoard board, ChessPosition myPosition, Collection<ChessMove> possibleMoves) {
+        //will only change row. No need to check for capture?
+    }
+
     void addMove(int row, int col, Collection<ChessMove> possibleMoves, ChessPosition myPosition, ChessBoard board) {
         ChessPosition checkSquare = new ChessPosition(row, col);
         if (board.getPiece(checkSquare).getPieceType() == null) {

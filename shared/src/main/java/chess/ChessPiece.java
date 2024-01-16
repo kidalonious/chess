@@ -211,7 +211,12 @@ public class ChessPiece {
     }
 
     public Collection<ChessMove> pawnMoves(ChessBoard board, ChessPosition myPosition, Collection<ChessMove> possibleMoves) {
-        //will only change row. No need to check for capture?
+        //will only change row. No need to check for capture? Check for team color to see if it should be subtraction or addition?
+        if (myPosition.getRow() == 2) {
+            addMove(myPosition.getRow() + 2, myPosition.getColumn(), possibleMoves, myPosition, board);
+        }
+        addMove(myPosition.getRow() + 1, myPosition.getColumn(), possibleMoves, myPosition, board);
+        return possibleMoves;
     }
 
     void addMove(int row, int col, Collection<ChessMove> possibleMoves, ChessPosition myPosition, ChessBoard board) {

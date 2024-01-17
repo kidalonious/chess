@@ -7,11 +7,11 @@ package chess;
  * signature of the existing methods.
  */
 public class ChessPosition {
-    private static int row;
-    private static int col;
+    private final int row;
+    private final int col;
     public ChessPosition(int row, int col) {
-        ChessPosition.row = row;
-        ChessPosition.col = col;
+        this.row = row;
+        this.col = col;
     }
 
     /**

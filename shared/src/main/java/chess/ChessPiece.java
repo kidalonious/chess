@@ -56,10 +56,7 @@ public class ChessPiece {
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         ArrayList<ChessMove> possibleMoves = new ArrayList<>();
         ChessPiece currPiece = board.getPiece(myPosition);
-        if (currPiece == null) {
-            return possibleMoves;
-        }
-        //PieceType currPieceType = currPiece.getPieceType();
+
         switch (currPiece.getPieceType()) {
             case QUEEN:
                 possibleMoves = (ArrayList<ChessMove>) queenMoves(board, myPosition, possibleMoves);
@@ -77,41 +74,38 @@ public class ChessPiece {
                 break;
             case KING:
                 break;
-            default:
-                break;
         }
         return possibleMoves;
     }
 
     public Collection<ChessMove> bishopMoves(ChessBoard board, ChessPosition myPosition, Collection<ChessMove> possibleMoves) {
-        ChessPosition position = new ChessPosition(myPosition.getRow() - 1, myPosition.getColumn() - 1);
-        int row = position.getRow() + 1;
-        int col = position.getColumn() + 1;
-        while (row < 8 && col < 8) {
+        int row = myPosition.getRow() + 1;
+        int col = myPosition.getColumn() + 1;
+        while (row <= 8 && col <= 8) {
             //Diagonally up + right, row:addition col:addition
             addMove(row, col, possibleMoves, myPosition, board);
             row++;
             col++;
         }
-        row = position.getRow() - 1;
-        col = position.getColumn() - 1;
+        row = myPosition.getRow() - 1;
+        col = myPosition.getColumn() - 1;
         while (row > 0 && col > 0) {
             //Diagonally down + left, row:subtraction col:subtraction
             addMove(row, col, possibleMoves, myPosition, board);
             row--;
             col--;
         }
-        row = position.getRow() - 1;
-        col = position.getColumn() + 1;
-        while (row <= 8 && col > 0) {
+        row = myPosition.getRow() - 1;
+        col = myPosition.getColumn() + 1;
+        while (row > 0 && col <= 8) {
             //Diagonally down + right, row:addition col:subtraction
             addMove(row, col, possibleMoves, myPosition, board);
             row--;
             col++;
         }
-        row = position.getRow() + 1;
-        col = position.getColumn() + 1;
-        while (row > 0 && col <= 8) {
+        row = myPosition.getRow() + 1;
+        col = myPosition.getColumn() + 1;
+        while (row <= 8 && col > 0) {
             //Diagonally up + left, row:addition col:subtraction
             addMove(row, col, possibleMoves, myPosition, board);
             row++;
@@ -121,29 +115,27 @@ public class ChessPiece {
     }
 
     public Collection<ChessMove> rookMoves(ChessBoard board, ChessPosition myPosition, Collection<ChessMove> possibleMoves) {
-        // subtract from myPosition to get it in line with a 0-7 index board instead of a 1-8
-        ChessPosition position = new ChessPosition(myPosition.getRow() - 1, myPosition.getColumn() - 1);
         //up, row:addition
-        int row = position.getRow() + 1;
-        while (row < 8) {
+        int row = myPosition.getRow() + 1;
+        while (row <= 8) {
             addMove(row, myPosition.getColumn(), possibleMoves, myPosition, board);
             row++;
         }
         //down, row:subtraction
-        row = position.getRow() - 1;
-        while (row >= 0) {
+        row = myPosition.getRow() - 1;
+        while (row > 0) {
             addMove(row, myPosition.getColumn(), possibleMoves, myPosition, board);
             row--;
         }
         //left, col:subtraction
-        int col = position.getColumn() - 1;
-        while (col >= 0) {
+        int col = myPosition.getColumn() - 1;
+        while (col > 0) {
             addMove(myPosition.getRow(), col, possibleMoves, myPosition, board);
             col--;
         }
         //right, col:addition
-        col = position.getColumn() - 1;
-        while (col < 8) {
+        col = myPosition.getColumn() + 1;
+        while (col <= 8) {
             addMove(myPosition.getRow(), col, possibleMoves, myPosition, board);
             col++;
         }
@@ -161,53 +153,52 @@ public class ChessPiece {
     public Collection<ChessMove> knightMoves(ChessBoard board, ChessPosition myPosition, Collection<ChessMove> possibleMoves) {
         //Knight's theoretically have 8 possible total moves on an empty board from the center
         //Finding in a loop will likely not work either because moves aren't dependent on a path like other pieces
-        ChessPosition position = new ChessPosition(myPosition.getRow() - 1, myPosition.getColumn() - 1);
         //up 2, right 1
-        int row = position.getRow() + 2;
+        int row = myPosition.getRow() + 2;
         int col = myPosition.getColumn() + 1;
-        if (row < 8 && col < 8) {
+        if (row <= 8 && col <= 8) {
             addMove(row, col, possibleMoves, myPosition, board);
         }
         //reset, check: up 1, right 2
         row = myPosition.getRow() + 1;
         col = myPosition.getColumn() + 2;
-        if (row < 8 && col < 8) {
+        if (row <= 8 && col <= 8) {
             addMove(row, col, possibleMoves, myPosition, board);
         }
         //reset, check: up 2, left 1
         row = myPosition.getRow() + 2;
         col = myPosition.getColumn() - 1;
-        if (row < 8 && col >= 0) {
+        if (row <= 8 && col > 0) {
             addMove(row, col, possibleMoves, myPosition, board);
         }
         //reset, check: up 1, left 2
         row = myPosition.getRow() + 1;
         col = myPosition.getColumn() - 2;
-        if (row < 8 && col >= 0) {
+        if (row <= 8 && col > 0) {
             addMove(row, col, possibleMoves, myPosition, board);
         }
         //reset, check: down 2, left 1
         row = myPosition.getRow() - 2;
         col = myPosition.getColumn() - 1;
-        if (row >= 0 && col >= 0) {
+        if (row > 0 && col > 0) {
             addMove(row, col, possibleMoves, myPosition, board);
         }
         //reset, check: down 1, left 2
         row = myPosition.getRow() - 1;
         col = myPosition.getColumn() - 2;
-        if (row >= 8 && col >= 8) {
+        if (row > 0 && col > 0) {
             addMove(row, col, possibleMoves, myPosition, board);
         }
         //reset, check: down 2, right 1
         row = myPosition.getRow() - 2;
         col = myPosition.getColumn() + 1;
-        if (row >= 0 && col < 8) {
+        if (row > 0 && col <= 8) {
             addMove(row, col, possibleMoves, myPosition, board);
         }
         //reset, check: down 1, right 2
         row = myPosition.getRow() - 1;
         col = myPosition.getColumn() + 2;
-        if (row < 8 && col < 8) {
+        if (row > 0 && col <= 8) {
             addMove(row, col, possibleMoves, myPosition, board);
         }
         return possibleMoves;
@@ -224,7 +215,15 @@ public class ChessPiece {
 
     void addMove(int row, int col, Collection<ChessMove> possibleMoves, ChessPosition myPosition, ChessBoard board) {
         ChessPosition checkSquare = new ChessPosition(row, col);
-        if (board.getPiece(checkSquare).getPieceType() == null) {
+        if (board.getPiece(checkSquare) == null) {
+            ChessMove possibleMove = new ChessMove(myPosition, checkSquare, null);
+            possibleMoves.add(possibleMove);
+        }
+    }
+
+    void addPawnMove(int row, int col, Collection<ChessMove> possibleMoves, ChessPosition myPosition, ChessBoard board) {
+        ChessPosition checkSquare = new ChessPosition(row, col);
+        if (board.getPiece(checkSquare) == null) {
             ChessMove possibleMove = new ChessMove(myPosition, checkSquare, null);
             possibleMoves.add(possibleMove);
         }

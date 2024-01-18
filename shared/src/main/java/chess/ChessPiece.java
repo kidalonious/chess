@@ -273,7 +273,7 @@ public class ChessPiece {
         ChessPosition checkSquare = new ChessPosition(row, col);
         if (board.getPiece(checkSquare) == null) {
             ChessMove possibleMove = new ChessMove(myPosition, checkSquare, null);
-            System.out.println(possibleMove.toStringForPersonalTests());
+            //System.out.println(possibleMove.toStringForPersonalTests());
             possibleMoves.add(possibleMove);
             return true;
         }

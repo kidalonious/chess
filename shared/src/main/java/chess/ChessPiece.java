@@ -74,6 +74,7 @@ public class ChessPiece {
             case PAWN:
                 break;
             case KING:
+                possibleMoves = (HashSet<ChessMove>) kingMoves(board, myPosition, possibleMoves);
                 break;
         }
         return possibleMoves;
@@ -222,6 +223,43 @@ public class ChessPiece {
         return possibleMoves;
     }
 
+    public Collection<ChessMove> kingMoves(ChessBoard board, ChessPosition myPosition, Collection<ChessMove> possibleMoves) {
+        int row = myPosition.getRow() - 1;
+        int col = myPosition.getColumn();
+        if (row > 0 && addMove(row, col, possibleMoves, myPosition, board)) {
+                addMove(row, col, possibleMoves, myPosition, board);
+        }
+        col = myPosition.getColumn() - 1;
+        if (row > 0 && col > 0 && addMove(row,col, possibleMoves,myPosition,board)) {
+            addMove(row, col, possibleMoves, myPosition, board);
+        }
+        col = myPosition.getColumn() + 1;
+        if (row > 0 && col <= 8 && addMove(row,col, possibleMoves,myPosition,board)) {
+            addMove(row, col, possibleMoves, myPosition, board);
+        }
+        row = myPosition.getRow();
+        if (col <= 8 && addMove(row,col,possibleMoves,myPosition,board)) {
+            addMove(row, col, possibleMoves, myPosition, board);
+        }
+        col = myPosition.getColumn() - 1;
+        if (col > 0 && addMove(row,col,possibleMoves,myPosition,board)) {
+            addMove(row, col, possibleMoves, myPosition, board);
+        }
+        row = myPosition.getRow() + 1;
+        if (col > 0 && row <= 8 && addMove(row, col, possibleMoves, myPosition, board)) {
+            addMove(row, col, possibleMoves, myPosition, board);
+        }
+        col = myPosition.getColumn();
+        if (row <= 8 && addMove(row, col, possibleMoves, myPosition, board)) {
+            addMove(row,col,possibleMoves,myPosition,board);
+        }
+        col = myPosition.getColumn()+ 1;
+        if (row <= 8 && col <= 8 && addMove(row, col, possibleMoves, myPosition, board)) {
+            addMove(row, col, possibleMoves, myPosition, board);
+        }
+        return possibleMoves;
+    }
+
     public Collection<ChessMove> pawnMoves(ChessBoard board, ChessPosition myPosition, Collection<ChessMove> possibleMoves) {
         //will only change row. No need to check for capture? Check for team color to see if it should be subtraction or addition?
         if (myPosition.getRow() == 2) {
@@ -235,7 +273,7 @@ public class ChessPiece {
         ChessPosition checkSquare = new ChessPosition(row, col);
         if (board.getPiece(checkSquare) == null) {
             ChessMove possibleMove = new ChessMove(myPosition, checkSquare, null);
-            //System.out.println(possibleMove.toStringForPersonalTests());
+            System.out.println(possibleMove.toStringForPersonalTests());
             possibleMoves.add(possibleMove);
             return true;
         }

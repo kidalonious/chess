@@ -1,5 +1,10 @@
 package chess;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Represents moving a chess piece on a chessboard
  * <p>
@@ -41,5 +46,23 @@ public class ChessMove {
      */
     public ChessPiece.PieceType getPromotionPiece() {
         return promotionPiece;
+    }
+
+    public String toStringForPersonalTests() {
+        int startRank = startPosition.getRow();
+        int startFile = startPosition.getColumn();
+
+        int endRank = endPosition.getRow();
+        int endFile = endPosition.getColumn();
+
+        char[] files = {'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
+        StringBuilder returnString = new StringBuilder();
+        returnString.append(files[startFile]);
+        returnString.append(startRank);
+        returnString.append(files[endFile]);
+        returnString.append(endRank);
+
+        return returnString.toString();
+
     }
 }

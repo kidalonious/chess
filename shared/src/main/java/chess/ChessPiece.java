@@ -54,21 +54,21 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        ArrayList<ChessMove> possibleMoves = new ArrayList<>();
+        HashSet<ChessMove> possibleMoves = new HashSet<>();
         ChessPiece currPiece = board.getPiece(myPosition);
 
         switch (currPiece.getPieceType()) {
             case QUEEN:
-                possibleMoves = (ArrayList<ChessMove>) queenMoves(board, myPosition, possibleMoves);
+                possibleMoves = (HashSet<ChessMove>) queenMoves(board, myPosition, possibleMoves);
                 break;
             case BISHOP:
-                possibleMoves = (ArrayList<ChessMove>) bishopMoves(board, myPosition, possibleMoves);
+                possibleMoves = (HashSet<ChessMove>) bishopMoves(board, myPosition, possibleMoves);
                 break;
             case KNIGHT:
-                possibleMoves = (ArrayList<ChessMove>) knightMoves(board, myPosition, possibleMoves);
+                possibleMoves = (HashSet<ChessMove>) knightMoves(board, myPosition, possibleMoves);
                 break;
             case ROOK:
-                possibleMoves = (ArrayList<ChessMove>) rookMoves(board, myPosition, possibleMoves);
+                possibleMoves = (HashSet<ChessMove>) rookMoves(board, myPosition, possibleMoves);
                 break;
             case PAWN:
                 break;
@@ -98,13 +98,13 @@ public class ChessPiece {
         row = myPosition.getRow() - 1;
         col = myPosition.getColumn() + 1;
         while (row > 0 && col <= 8) {
-            //Diagonally down + right, row:addition col:subtraction
+            //Diagonally down + right, row:subtraction col:addition
             addMove(row, col, possibleMoves, myPosition, board);
             row--;
             col++;
         }
         row = myPosition.getRow() + 1;
-        col = myPosition.getColumn() + 1;
+        col = myPosition.getColumn() -1;
         while (row <= 8 && col > 0) {
             //Diagonally up + left, row:addition col:subtraction
             addMove(row, col, possibleMoves, myPosition, board);
@@ -217,6 +217,7 @@ public class ChessPiece {
         ChessPosition checkSquare = new ChessPosition(row, col);
         if (board.getPiece(checkSquare) == null) {
             ChessMove possibleMove = new ChessMove(myPosition, checkSquare, null);
+            System.out.println(possibleMove.toStringForPersonalTests());
             possibleMoves.add(possibleMove);
         }
     }

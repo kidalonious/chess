@@ -3,6 +3,7 @@ package chess;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 
 /**
  * Represents a single chess piece
@@ -220,6 +221,15 @@ public class ChessPiece {
             System.out.println(possibleMove.toStringForPersonalTests());
             possibleMoves.add(possibleMove);
         }
+        else {
+            ChessPiece currPiece = new ChessPiece(board.getPiece(myPosition).getTeamColor(), board.getPiece(myPosition).getPieceType());
+            ChessPiece otherPiece = new ChessPiece(board.getPiece(checkSquare).getTeamColor(), board.getPiece(checkSquare).getPieceType());
+            checkCollision(currPiece, otherPiece);
+        }
+    }
+
+    boolean checkCollision(ChessPiece currPiece, ChessPiece otherPiece) {
+        return currPiece.getTeamColor() == otherPiece.getTeamColor();
     }
 
     void addPawnMove(int row, int col, Collection<ChessMove> possibleMoves, ChessPosition myPosition, ChessBoard board) {
@@ -230,4 +240,15 @@ public class ChessPiece {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ChessPiece that)) return false;
+        return pieceColor == that.pieceColor && type == that.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pieceColor, type);
+    }
 }

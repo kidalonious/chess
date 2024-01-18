@@ -1,9 +1,6 @@
 package chess;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Represents moving a chess piece on a chessboard
@@ -12,16 +9,16 @@ import java.util.Set;
  * signature of the existing methods.
  */
 public class ChessMove {
-    private static ChessPosition endPosition;
-    private static ChessPosition startPosition;
-    private static ChessPiece.PieceType promotionPiece;
+    private final ChessPosition endPosition;
+    private final ChessPosition startPosition;
+    private final ChessPiece.PieceType promotionPiece;
 
 
     public ChessMove(ChessPosition startPosition, ChessPosition endPosition,
                      ChessPiece.PieceType promotionPiece) {
-        ChessMove.startPosition = startPosition;
-        ChessMove.endPosition = endPosition;
-        ChessMove.promotionPiece = promotionPiece;
+        this.startPosition = startPosition;
+        this.endPosition = endPosition;
+        this.promotionPiece = promotionPiece;
     }
 
     /**
@@ -64,5 +61,17 @@ public class ChessMove {
 
         return returnString.toString();
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ChessMove chessMove)) return false;
+        return Objects.equals(getEndPosition(), chessMove.getEndPosition()) && Objects.equals(getStartPosition(), chessMove.getStartPosition()) && getPromotionPiece() == chessMove.getPromotionPiece();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getEndPosition(), getStartPosition(), getPromotionPiece());
     }
 }

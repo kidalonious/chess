@@ -85,7 +85,7 @@ public class ChessPiece {
         while (row <= 8 && col <= 8) {
             //Diagonally up + right, row:addition col:addition
             if (addMove(row, col, possibleMoves, myPosition, board)) {
-
+                addMove(row, col, possibleMoves, myPosition, board);
                 row++;
                 col++;
             } else break;
@@ -95,25 +95,31 @@ public class ChessPiece {
         col = myPosition.getColumn() - 1;
         while (row > 0 && col > 0) {
             //Diagonally down + left, row:subtraction col:subtraction
-            addMove(row, col, possibleMoves, myPosition, board);
-            row--;
-            col--;
+            if (addMove(row, col, possibleMoves, myPosition, board)) {
+                addMove(row, col, possibleMoves, myPosition, board);
+                row--;
+                col--;
+            } else break;
         }
         row = myPosition.getRow() - 1;
         col = myPosition.getColumn() + 1;
         while (row > 0 && col <= 8) {
             //Diagonally down + right, row:subtraction col:addition
-            addMove(row, col, possibleMoves, myPosition, board);
-            row--;
-            col++;
+            if (addMove(row, col, possibleMoves, myPosition, board)) {
+                addMove(row, col, possibleMoves, myPosition, board);
+                row--;
+                col++;
+            } else break;
         }
         row = myPosition.getRow() + 1;
         col = myPosition.getColumn() -1;
         while (row <= 8 && col > 0) {
             //Diagonally up + left, row:addition col:subtraction
-            addMove(row, col, possibleMoves, myPosition, board);
-            row++;
-            col--;
+            if (addMove(row, col, possibleMoves, myPosition, board)) {
+                addMove(row, col, possibleMoves, myPosition, board);
+                row++;
+                col--;
+            } else break;
         }
         return possibleMoves;
     }

@@ -174,49 +174,49 @@ public class ChessPiece {
         //up 2, right 1
         int row = myPosition.getRow() + 2;
         int col = myPosition.getColumn() + 1;
-        if (row <= 8 && col <= 8) {
+        if (row <= 8 && col <= 8 && addMove(row, col, possibleMoves, myPosition, board)) {
             addMove(row, col, possibleMoves, myPosition, board);
         }
         //reset, check: up 1, right 2
         row = myPosition.getRow() + 1;
         col = myPosition.getColumn() + 2;
-        if (row <= 8 && col <= 8) {
+        if (row <= 8 && col <= 8 && addMove(row, col, possibleMoves, myPosition, board)) {
             addMove(row, col, possibleMoves, myPosition, board);
         }
         //reset, check: up 2, left 1
         row = myPosition.getRow() + 2;
         col = myPosition.getColumn() - 1;
-        if (row <= 8 && col > 0) {
+        if (row <= 8 && col > 0 && addMove(row, col, possibleMoves, myPosition, board)) {
             addMove(row, col, possibleMoves, myPosition, board);
         }
         //reset, check: up 1, left 2
         row = myPosition.getRow() + 1;
         col = myPosition.getColumn() - 2;
-        if (row <= 8 && col > 0) {
+        if (row <= 8 && col > 0 && addMove(row, col, possibleMoves, myPosition, board)) {
             addMove(row, col, possibleMoves, myPosition, board);
         }
         //reset, check: down 2, left 1
         row = myPosition.getRow() - 2;
         col = myPosition.getColumn() - 1;
-        if (row > 0 && col > 0) {
+        if (row > 0 && col > 0 && addMove(row, col, possibleMoves, myPosition, board)) {
             addMove(row, col, possibleMoves, myPosition, board);
         }
         //reset, check: down 1, left 2
         row = myPosition.getRow() - 1;
         col = myPosition.getColumn() - 2;
-        if (row > 0 && col > 0) {
+        if (row > 0 && col > 0 && addMove(row, col, possibleMoves, myPosition, board)) {
             addMove(row, col, possibleMoves, myPosition, board);
         }
         //reset, check: down 2, right 1
         row = myPosition.getRow() - 2;
         col = myPosition.getColumn() + 1;
-        if (row > 0 && col <= 8) {
+        if (row > 0 && col <= 8 && addMove(row, col, possibleMoves, myPosition, board)) {
             addMove(row, col, possibleMoves, myPosition, board);
         }
         //reset, check: down 1, right 2
         row = myPosition.getRow() - 1;
         col = myPosition.getColumn() + 2;
-        if (row > 0 && col <= 8) {
+        if (row > 0 && col <= 8 && addMove(row, col, possibleMoves, myPosition, board)) {
             addMove(row, col, possibleMoves, myPosition, board);
         }
         return possibleMoves;

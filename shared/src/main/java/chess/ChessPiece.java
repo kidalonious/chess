@@ -128,26 +128,34 @@ public class ChessPiece {
         //up, row:addition
         int row = myPosition.getRow() + 1;
         while (row <= 8) {
-            addMove(row, myPosition.getColumn(), possibleMoves, myPosition, board);
-            row++;
+            if (addMove(row, myPosition.getColumn(), possibleMoves, myPosition, board)) {
+                addMove(row, myPosition.getColumn(), possibleMoves, myPosition, board);
+                row++;
+            } else break;
         }
         //down, row:subtraction
         row = myPosition.getRow() - 1;
         while (row > 0) {
-            addMove(row, myPosition.getColumn(), possibleMoves, myPosition, board);
-            row--;
+            if (addMove(row, myPosition.getColumn(), possibleMoves, myPosition, board)) {
+                addMove(row, myPosition.getColumn(), possibleMoves, myPosition, board);
+                row--;
+            } else break;
         }
         //left, col:subtraction
         int col = myPosition.getColumn() - 1;
         while (col > 0) {
-            addMove(myPosition.getRow(), col, possibleMoves, myPosition, board);
-            col--;
+            if (addMove(myPosition.getRow(), col, possibleMoves, myPosition, board)) {
+                addMove(myPosition.getRow(), col, possibleMoves, myPosition, board);
+                col--;
+            } else break;
         }
         //right, col:addition
         col = myPosition.getColumn() + 1;
         while (col <= 8) {
-            addMove(myPosition.getRow(), col, possibleMoves, myPosition, board);
-            col++;
+            if (addMove(myPosition.getRow(), col, possibleMoves, myPosition, board)) {
+                addMove(myPosition.getRow(), col, possibleMoves, myPosition, board);
+                col++;
+            } else break;
         }
         return possibleMoves;
     }
@@ -227,7 +235,7 @@ public class ChessPiece {
         ChessPosition checkSquare = new ChessPosition(row, col);
         if (board.getPiece(checkSquare) == null) {
             ChessMove possibleMove = new ChessMove(myPosition, checkSquare, null);
-            System.out.println(possibleMove.toStringForPersonalTests());
+            //System.out.println(possibleMove.toStringForPersonalTests());
             possibleMoves.add(possibleMove);
             return true;
         }

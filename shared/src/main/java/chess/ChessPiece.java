@@ -84,9 +84,12 @@ public class ChessPiece {
         int col = myPosition.getColumn() + 1;
         while (row <= 8 && col <= 8) {
             //Diagonally up + right, row:addition col:addition
-            addMove(row, col, possibleMoves, myPosition, board);
-            row++;
-            col++;
+            if (addMove(row, col, possibleMoves, myPosition, board)) {
+
+                row++;
+                col++;
+            } else break;
+
         }
         row = myPosition.getRow() - 1;
         col = myPosition.getColumn() - 1;
@@ -214,21 +217,28 @@ public class ChessPiece {
         return possibleMoves;
     }
 
-    void addMove(int row, int col, Collection<ChessMove> possibleMoves, ChessPosition myPosition, ChessBoard board) {
+    boolean addMove(int row, int col, Collection<ChessMove> possibleMoves, ChessPosition myPosition, ChessBoard board) {
         ChessPosition checkSquare = new ChessPosition(row, col);
         if (board.getPiece(checkSquare) == null) {
             ChessMove possibleMove = new ChessMove(myPosition, checkSquare, null);
             System.out.println(possibleMove.toStringForPersonalTests());
             possibleMoves.add(possibleMove);
+            return true;
         }
         else {
             ChessPiece currPiece = new ChessPiece(board.getPiece(myPosition).getTeamColor(), board.getPiece(myPosition).getPieceType());
             ChessPiece otherPiece = new ChessPiece(board.getPiece(checkSquare).getTeamColor(), board.getPiece(checkSquare).getPieceType());
-            checkCollision(currPiece, otherPiece);
+            if (!checkCollision(currPiece, otherPiece)) {
+                ChessMove possibleMove = new ChessMove(myPosition, checkSquare, null);
+                possibleMoves.add(possibleMove);
+            }
+            return false;
         }
     }
 
     boolean checkCollision(ChessPiece currPiece, ChessPiece otherPiece) {
+        //This returns true if the two pieces are the same color, false if they are different
+        //false means the piece can be captured and the move should be added to possibleMoves
         return currPiece.getTeamColor() == otherPiece.getTeamColor();
     }
 

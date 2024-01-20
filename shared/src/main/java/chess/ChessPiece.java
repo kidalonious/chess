@@ -274,6 +274,7 @@ public class ChessPiece {
                         addMove(row + 1, col, possibleMoves, myPosition, board);
                     }
                 }
+
                 break;
             case BLACK:
                 row = myPosition.getRow() - 1;
@@ -288,7 +289,9 @@ public class ChessPiece {
                 row = myPosition.getRow();
         }
         ChessPosition nextSquare = new ChessPosition(row, col);
-        if (board.getPiece(nextSquare) == null && addMove(row, col, possibleMoves, myPosition, board)) {
+        if (checkPromotion(possibleMoves, myPosition, nextSquare, currPiece)) {
+            checkPromotion(possibleMoves, myPosition, nextSquare, currPiece);
+        } else if (board.getPiece(nextSquare) == null && addMove(row, col, possibleMoves, myPosition, board)) {
             addMove(row, col, possibleMoves, myPosition, board);
         }
         ChessPosition[] captureSquares = new ChessPosition[2];
@@ -297,10 +300,33 @@ public class ChessPiece {
         for (ChessPosition square : captureSquares) {
             if (board.getPiece(square) != null) {
                 addMove(square.getRow(), square.getColumn(), possibleMoves, myPosition, board);
+                checkPromotion(possibleMoves, myPosition, square, currPiece);
             }
         }
 
         return possibleMoves;
+    }
+
+    public boolean checkPromotion(Collection<ChessMove> possibleMoves,ChessPosition myPosition, ChessPosition square, ChessPiece currPiece) {
+        if (square.getRow() == 8 && currPiece.getTeamColor() == ChessGame.TeamColor.WHITE) {
+            checkPromotionHelper(possibleMoves, myPosition, square);
+            return true;
+        } else if (square.getRow() == 1 && currPiece.getTeamColor() == ChessGame.TeamColor.BLACK) {
+            checkPromotionHelper(possibleMoves, myPosition, square);
+            return true;
+        }
+        return false;
+    }
+
+    private void checkPromotionHelper(Collection<ChessMove> possibleMoves, ChessPosition myPosition, ChessPosition square) {
+        ChessMove promotionKnight = new ChessMove(myPosition, square, PieceType.KNIGHT);
+        ChessMove promotionBishop = new ChessMove(myPosition, square, PieceType.BISHOP);
+        ChessMove promotionRook = new ChessMove(myPosition, square, PieceType.ROOK);
+        ChessMove promotionQueen = new ChessMove(myPosition, square, PieceType.QUEEN);
+        possibleMoves.add(promotionKnight);
+        possibleMoves.add(promotionBishop);
+        possibleMoves.add(promotionQueen);
+        possibleMoves.add(promotionRook);
     }
 
     boolean addMove(int row, int col, Collection<ChessMove> possibleMoves, ChessPosition myPosition, ChessBoard board) {

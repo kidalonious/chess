@@ -274,7 +274,6 @@ public class ChessPiece {
                         addMove(row + 1, col, possibleMoves, myPosition, board);
                     }
                 }
-
                 break;
             case BLACK:
                 row = myPosition.getRow() - 1;
@@ -288,6 +287,7 @@ public class ChessPiece {
             default:
                 row = myPosition.getRow();
         }
+
         ChessPosition nextSquare = new ChessPosition(row, col);
         if (checkPromotion(possibleMoves, myPosition, nextSquare, currPiece)) {
             checkPromotion(possibleMoves, myPosition, nextSquare, currPiece);
@@ -299,11 +299,12 @@ public class ChessPiece {
         captureSquares[1] = new ChessPosition(row, col +1);
         for (ChessPosition square : captureSquares) {
             if (board.getPiece(square) != null) {
-                addMove(square.getRow(), square.getColumn(), possibleMoves, myPosition, board);
-                checkPromotion(possibleMoves, myPosition, square, currPiece);
+                if (checkPromotion(possibleMoves, myPosition, square, currPiece)) {
+                    checkPromotion(possibleMoves, myPosition, square, currPiece);
+                }
+                else addMove(square.getRow(), square.getColumn(), possibleMoves, myPosition, board);
             }
         }
-
         return possibleMoves;
     }
 

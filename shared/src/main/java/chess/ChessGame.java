@@ -118,7 +118,7 @@ public class ChessGame {
      * @return True if the specified team is in checkmate
      */
     public boolean isInCheckmate(TeamColor teamColor) {
-        return isInCheck(teamColor) && validMoves(TODO) == null;
+        return (isInCheck(teamColor) && validMoves(TODO) == null);
     }
 
     /**
@@ -129,7 +129,7 @@ public class ChessGame {
      * @return True if the specified team is in stalemate, otherwise false
      */
     public boolean isInStalemate(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+        return (!isInCheck(teamColor) && validMoves(TODO) == null);
     }
 
     /**

@@ -1,6 +1,7 @@
 package chess;
 
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * For a class that can manage a chess game, making moves on a board
@@ -64,6 +65,13 @@ public class ChessGame {
         if (!moves.contains(move)) {
             throw new InvalidMoveException();
         }
+
+        if (currTeam == TeamColor.WHITE) {
+            setTeamTurn(TeamColor.BLACK);
+        }
+        if (currTeam == TeamColor.BLACK) {
+            setTeamTurn(TeamColor.WHITE);
+        }
     }
 
     /**
@@ -73,7 +81,34 @@ public class ChessGame {
      * @return True if the specified team is in check
      */
     public boolean isInCheck(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+        ChessPosition kingSquare = findKing(teamColor);
+        for (int row = 0; row <= 8; row++) {
+            for (int col = 0; col <= 8; col++) {
+                ChessPosition checkSquare = new ChessPosition(row, col);
+                if (isEnemyPiece(getTeamTurn(), checkSquare)) {
+                    board.getPiece(checkSquare).pieceMoves(board, checkSquare);
+
+                }
+            }
+        }
+        return false;
+    }
+
+    public ChessPosition findKing(TeamColor teamColor) throws RuntimeException {
+        for (int row = 0; row <= 8; row++) {
+            for (int col = 0; col <= 8; col++) {
+                ChessPosition checkSquare = new ChessPosition(row, col);
+                if (Objects.equals(board.getPiece(checkSquare), new ChessPiece(teamColor, ChessPiece.PieceType.KING))) {
+                    return checkSquare;
+                }
+            }
+        }
+        throw new RuntimeException();
+    }
+
+    public boolean isEnemyPiece(TeamColor teamColor, ChessPosition startPosition) {
+        if (board.getPiece(startPosition) != null) { return board.getPiece(startPosition).getTeamColor() != teamColor;}
+        return false;
     }
 
     /**
@@ -83,7 +118,7 @@ public class ChessGame {
      * @return True if the specified team is in checkmate
      */
     public boolean isInCheckmate(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+        return isInCheck(teamColor) && validMoves(TODO) == null;
     }
 
     /**

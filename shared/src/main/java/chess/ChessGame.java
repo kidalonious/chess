@@ -1,6 +1,7 @@
 package chess;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 
 /**
@@ -82,23 +83,36 @@ public class ChessGame {
      */
     public boolean isInCheck(TeamColor teamColor) {
         ChessPosition kingSquare = findKing(teamColor);
-        for (int row = 0; row <= 8; row++) {
-            for (int col = 0; col <= 8; col++) {
-                ChessPosition checkSquare = new ChessPosition(row, col);
-                if (isEnemyPiece(getTeamTurn(), checkSquare)) {
-                    board.getPiece(checkSquare).pieceMoves(board, checkSquare);
-
+        Collection <ChessPosition> enemySquares = enemyPiecePositions(teamColor);
+        for (ChessPosition square : enemySquares) {
+            Collection <ChessMove> piecesMoves = board.getPiece(square).pieceMoves(board, square);
+            for (ChessMove move : piecesMoves) {
+                if (move.getEndPosition() == kingSquare) {
+                    return true;
                 }
             }
         }
         return false;
     }
 
+    public Collection <ChessPosition> enemyPiecePositions(TeamColor teamColor) {
+        Collection <ChessPosition> enemyPositions = new HashSet<>();
+        for (int row = 0; row <= 8; row++) {
+            for (int col = 0; col <= 8; col++) {
+                ChessPosition checkSquare = new ChessPosition(row, col);
+                if (isEnemyPiece(teamColor, checkSquare)) {
+                    enemyPositions.add(checkSquare);
+                }
+            }
+        }
+        return enemyPositions;
+    }
+
     public ChessPosition findKing(TeamColor teamColor) throws RuntimeException {
         for (int row = 0; row <= 8; row++) {
             for (int col = 0; col <= 8; col++) {
                 ChessPosition checkSquare = new ChessPosition(row, col);
-                if (Objects.equals(board.getPiece(checkSquare), new ChessPiece(teamColor, ChessPiece.PieceType.KING))) {
+                if (board.getPiece(checkSquare) == new ChessPiece(teamColor, ChessPiece.PieceType.KING)) {
                     return checkSquare;
                 }
             }

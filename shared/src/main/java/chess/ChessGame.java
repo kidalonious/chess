@@ -89,7 +89,7 @@ public class ChessGame {
         for (ChessPosition square : enemySquares) {
             Collection <ChessMove> piecesMoves = board.getPiece(square).pieceMoves(board, square);
             for (ChessMove move : piecesMoves) {
-                if (move.getEndPosition() == kingSquare) {
+                if (move.getEndPosition().equals(kingSquare)) {
                     return true;
                 }
             }

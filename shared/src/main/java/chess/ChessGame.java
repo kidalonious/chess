@@ -76,7 +76,8 @@ public class ChessGame {
             throw new InvalidMoveException();
         }
         if (board.getPiece(move.getEndPosition()) != null) {
-            ChessPiece capturedPiece = board.getPiece(move.getEndPosition());
+            //I need a way to "uncapture" a piece.
+            //If a piece gets captured in this function, I need to be able to undo it
         }
         board.addPiece(move.getEndPosition(), board.getPiece(move.getStartPosition()));
         board.addPiece(move.getStartPosition(), null);
@@ -95,10 +96,11 @@ public class ChessGame {
         } catch (InvalidMoveException e) {
             throw new RuntimeException(e);
         }
-        if (isInCheck(currTeam)) {
+        if (isInCheck(nextTeam)) {
             undoMove(move);
             return false;
         }
+
         undoMove(move);
         return true;
     }

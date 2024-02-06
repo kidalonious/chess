@@ -134,19 +134,6 @@ public class ChessGame {
         return false;
     }
 
-    public Collection <ChessPosition> enemyPiecePositions(TeamColor teamColor) {
-        Collection <ChessPosition> enemyPositions = new HashSet<>();
-        for (int row = 1; row <= 8; row++) {
-            for (int col = 1; col <= 8; col++) {
-                ChessPosition checkSquare = new ChessPosition(row, col);
-                if (isEnemyPiece(teamColor, checkSquare)) {
-                    enemyPositions.add(checkSquare);
-                }
-            }
-        }
-        return enemyPositions;
-    }
-
     public ChessPosition findKing(TeamColor teamColor) throws RuntimeException {
         ChessPiece targetPiece = new ChessPiece(teamColor, ChessPiece.PieceType.KING);
         for (int row = 1; row <= 8; row++) {
@@ -159,11 +146,6 @@ public class ChessGame {
             }
         }
         throw new RuntimeException("Could not find that piece on the given board");
-    }
-
-    public boolean isEnemyPiece(TeamColor teamColor, ChessPosition startPosition) {
-        if (spaceOccupied(startPosition)) { return board.getPiece(startPosition).getTeamColor() != teamColor;}
-        return false;
     }
 
     public boolean spaceOccupied(ChessPosition square) {

@@ -97,16 +97,12 @@ public class ChessGame {
 
     public boolean isValidMove(ChessMove move) {
         makeTestMove(move);
-        if (isInCheck(currTeam) || isInCheck(otherTeam)) {
+        if (isInCheck(otherTeam)) {
             undoTestMove(move);
             return false;
         }
 
         undoTestMove(move);
-        return true;
-    }
-
-    public boolean isValidMoveClone(ChessMove move) {
         return true;
     }
 

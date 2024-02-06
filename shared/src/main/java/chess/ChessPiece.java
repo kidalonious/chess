@@ -273,8 +273,10 @@ public class ChessPiece {
             }
             return possibleMoves;
         }
-        checkCollision(board, currPiece, row, col + 1, possibleMoves, myPosition);
-        checkCollision(board, currPiece, row, col - 1, possibleMoves, myPosition);
+        if (col > 1 && col < 8) {
+            checkCollision(board, currPiece, row, col + 1, possibleMoves, myPosition);
+            checkCollision(board, currPiece, row, col - 1, possibleMoves, myPosition);
+        }
         return possibleMoves;
     }
 

@@ -56,7 +56,7 @@ public class ChessGame {
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
         Collection<ChessMove> validMoves = new HashSet<>();
-        if (board.getPiece(startPosition) == null) {
+        if (!spaceOccupied(startPosition)) {
             return null;
         }
         Collection<ChessMove> pieceMoves = board.getPiece(startPosition).pieceMoves(board, startPosition);
@@ -87,12 +87,13 @@ public class ChessGame {
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
         Collection<ChessMove> moves = validMoves(move.getStartPosition());
-        if (!moves.contains(move) || board.getPiece(move.getStartPosition()).getTeamColor() != currTeam) {
+        if (moves.contains(move)) {
+            board.addPiece(move.getEndPosition(), board.getPiece(move.getStartPosition()));
+            board.addPiece(move.getStartPosition(), null);
+            setTeamTurn(otherTeam);
+        } else {
             throw new InvalidMoveException();
         }
-        board.addPiece(move.getEndPosition(), board.getPiece(move.getStartPosition()));
-        board.addPiece(move.getStartPosition(), null);
-        setTeamTurn(otherTeam);
     }
 
     public boolean isValidMove(ChessMove move) {
@@ -134,7 +135,7 @@ public class ChessGame {
         return false;
     }
 
-    public ChessPosition findKing(TeamColor teamColor) throws RuntimeException {
+    public ChessPosition findKing(TeamColor teamColor) {
         ChessPiece targetPiece = new ChessPiece(teamColor, ChessPiece.PieceType.KING);
         for (int row = 1; row <= 8; row++) {
             for (int col = 1; col <= 8; col++) {
@@ -145,7 +146,7 @@ public class ChessGame {
                 }
             }
         }
-        throw new RuntimeException("Could not find that piece on the given board");
+        return new ChessPosition(0,0);
     }
 
     public boolean spaceOccupied(ChessPosition square) {

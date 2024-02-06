@@ -95,21 +95,6 @@ public class ChessGame {
         setTeamTurn(otherTeam);
     }
 
-    public void undoTestMove(ChessMove move) {
-        board.addPiece(move.getStartPosition(), board.getPiece(move.getEndPosition()));
-        board.addPiece(move.getEndPosition(), null);
-    }
-
-    public void makeTestMove(ChessMove move) {
-        if (spaceOccupied(move.getEndPosition())) {
-            ChessPiece capturedPiece = board.getPiece(move.getEndPosition());
-        }
-        board.addPiece(move.getEndPosition(), board.getPiece(move.getStartPosition()));
-        board.addPiece(move.getStartPosition(), null);
-
-    }
-
-
     public boolean isValidMove(ChessMove move) {
         ChessBoard oldBoard = board;
         ChessBoard clonedBoard = cloneBoard(board);

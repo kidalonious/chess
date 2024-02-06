@@ -68,6 +68,17 @@ public class ChessGame {
         return validMoves;
     }
 
+    public ChessBoard cloneBoard(ChessBoard board) {
+        ChessBoard clonedBoard = new ChessBoard();
+        for (int row = 1; row <=8; row++) {
+            for (int col = 1; col <= 8; col++) {
+                ChessPosition square = new ChessPosition(row, col);
+                clonedBoard.addPiece(square, board.getPiece(square));
+            }
+        }
+        return clonedBoard;
+    }
+
     /**
      * Makes a move in a chess game
      *
@@ -90,19 +101,27 @@ public class ChessGame {
     }
 
     public void makeTestMove(ChessMove move) {
+        if (spaceOccupied(move.getEndPosition())) {
+            ChessPiece capturedPiece = board.getPiece(move.getEndPosition());
+        }
         board.addPiece(move.getEndPosition(), board.getPiece(move.getStartPosition()));
         board.addPiece(move.getStartPosition(), null);
+
     }
 
 
     public boolean isValidMove(ChessMove move) {
-        makeTestMove(move);
-        if (isInCheck(otherTeam)) {
-            undoTestMove(move);
+        ChessBoard oldBoard = board;
+        ChessBoard clonedBoard = cloneBoard(board);
+        ChessPiece currPiece = clonedBoard.getPiece(move.getStartPosition());
+        clonedBoard.addPiece(move.getEndPosition(), currPiece);
+        clonedBoard.addPiece(move.getStartPosition(), null);
+        setBoard(clonedBoard);
+        if (isInCheck(currPiece.getTeamColor())) {
+            setBoard(oldBoard);
             return false;
         }
-
-        undoTestMove(move);
+        setBoard(oldBoard);
         return true;
     }
 
@@ -114,12 +133,16 @@ public class ChessGame {
      */
     public boolean isInCheck(TeamColor teamColor) {
         ChessPosition kingSquare = findKing(teamColor);
-        Collection <ChessPosition> enemySquares = enemyPiecePositions(teamColor);
-        for (ChessPosition square : enemySquares) {
-            Collection <ChessMove> enemyPiecesMoves = board.getPiece(square).pieceMoves(board, square);
-            for (ChessMove move : enemyPiecesMoves) {
-                if (move.getEndPosition().equals(kingSquare)) {
-                    return true;
+        for (int row = 1; row <= 8; row++) {
+            for (int col = 1; col <= 8; col++) {
+                ChessPosition checkSquare = new ChessPosition(row, col);
+                if (spaceOccupied(checkSquare) && board.getPiece(checkSquare).getTeamColor() != teamColor) {
+                    Collection<ChessMove> pieceMoves = board.getPiece(checkSquare).pieceMoves(board, checkSquare);
+                    for (ChessMove move : pieceMoves) {
+                        if (move.getEndPosition().equals(kingSquare)) {
+                            return true;
+                        }
+                    }
                 }
             }
         }

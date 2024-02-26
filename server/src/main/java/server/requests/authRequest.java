@@ -3,6 +3,7 @@ import spark.*;
 
 public class authRequest extends baseRequest {
     public static Request convertToReq(String string) {
-        return serializer.fromJson(string, Request.class);
+        Request request = serializer.fromJson(string, Request.class);
+        return request;
     }
 }

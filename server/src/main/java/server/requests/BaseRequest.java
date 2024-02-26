@@ -2,9 +2,8 @@ package server.requests;
 
 
 import com.google.gson.Gson;
-import spark.*;
 
-public class baseRequest {
+public class BaseRequest {
     static Gson serializer = new Gson();
 
     public static String convertToString(spark.Request req) {

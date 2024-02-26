@@ -1,6 +1,7 @@
 package server;
 
 import server.handlers.ClearHandler;
+import server.handlers.RegisterHandler;
 import spark.*;
 
 public class Server {
@@ -13,7 +14,7 @@ public class Server {
         //Clear
         Spark.delete("/db", ClearHandler::handle);
         //Register
-        //Spark.post("/user", this::);
+        Spark.post("/user", RegisterHandler::handle);
         //Login
         //Spark.post("/session", this::);
         //Logout

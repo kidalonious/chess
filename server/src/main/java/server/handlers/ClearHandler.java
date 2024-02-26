@@ -8,6 +8,6 @@ public class ClearHandler {
         //ClearService clearService = new ClearService();
         ClearService.clear();
         response.status(200);
-        return "\"\"";
+        return "";
     }
 }

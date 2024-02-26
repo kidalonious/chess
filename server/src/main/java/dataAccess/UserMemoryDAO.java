@@ -5,7 +5,7 @@ import model.UserData;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class userMemoryDAO implements UserDAO {
+public class UserMemoryDAO implements UserDAO {
     public HashMap<UUID, UserData> userData = new HashMap<>();
     public void clear() {
         userData.clear();

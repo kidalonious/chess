@@ -7,15 +7,17 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class AuthMemoryDAO implements AuthDAO {
-    HashMap<UUID, AuthData> authData = new HashMap<>();
+    HashMap<String, AuthData> authData = new HashMap<>();
 
     public void clear() {
         authData.clear();
     }
 
-    public void generateAuthToken(UserData userData) {
-        String authToken = UUID.randomUUID().toString();
+    public String generateAuthToken(UserData userData) {
+        return UUID.randomUUID().toString();
+    }
+    public void addAuthData(String authToken, UserData userData) {
         AuthData auth = new AuthData(authToken, userData.username());
-        authData.put(UUID.randomUUID(), auth);
+        authData.put(generateAuthToken(userData), auth);
     }
 }

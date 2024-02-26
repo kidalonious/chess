@@ -6,13 +6,13 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class UserMemoryDAO implements UserDAO {
-    public HashMap<UUID, UserData> userData = new HashMap<>();
+    public HashMap<String, UserData> userData = new HashMap<>();
     public void clear() {
         userData.clear();
     }
 
-    public UserData createUser(UserData user) {
-        userData.put(UUID.randomUUID(), user);
-        return user;
+    public void createUser(String username, String password, String email) {
+        UserData user = new UserData(username, password, email);
+        userData.put(UUID.randomUUID().toString(), user);
     }
 }

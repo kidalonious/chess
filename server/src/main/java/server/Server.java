@@ -1,7 +1,6 @@
 package server;
 
-import server.handlers.ClearHandler;
-import server.handlers.RegisterHandler;
+import server.handlers.*;
 import spark.*;
 
 public class Server {
@@ -16,15 +15,15 @@ public class Server {
         //Register
         Spark.post("/user", RegisterHandler::handle);
         //Login
-        //Spark.post("/session", this::);
+        Spark.post("/session", LoginHandler::handle);
         //Logout
-        //Spark.delete("/session", this::);
+        Spark.delete("/session", LogoutHandler::handle);
         //List Games
-        //Spark.get("/game", this::);
+        Spark.get("/game", ListGamesHandler::handle);
         //Create Game
-        //Spark.post("/game", this::);
+        Spark.post("/game", CreateGameHandler::handle);
         //Join Game
-        //Spark.put("/game", this::);
+        Spark.put("/game", JoinGameHandler::handle);
         Spark.awaitInitialization();
         return Spark.port();
     }

@@ -1,6 +1,6 @@
 package server.requests;
 
-public class RegisterRequest extends BaseRequest {
+public class UserRequest extends BaseRequest {
     public static String registerObject() {
         return "";
     }

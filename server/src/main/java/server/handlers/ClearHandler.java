@@ -5,9 +5,9 @@ import spark.*;
 
 public class ClearHandler {
     public static Object handle(Request request, Response response) throws Exception {
-        ClearService clearService = new ClearService();
-        clearService.clear();
+        //ClearService clearService = new ClearService();
+        ClearService.clear();
         response.status(200);
-        return "";
+        return "\"\"";
     }
 }

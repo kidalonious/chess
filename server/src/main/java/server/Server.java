@@ -10,7 +10,20 @@ public class Server {
         Spark.staticFiles.location("web");
 
         // Register your endpoints and handle exceptions here.
+        //Clear
         Spark.delete("/db", (req, res) -> null);
+        //Register
+        //Spark.post("/user", this::);
+        //Login
+        //Spark.post("/session", this::);
+        //Logout
+        //Spark.delete("/session", this::);
+        //List Games
+        //Spark.get("/game", this::);
+        //Create Game
+        //Spark.post("/game", this::);
+        //Join Game
+        //Spark.put("/game", this::);
         Spark.awaitInitialization();
         return Spark.port();
     }

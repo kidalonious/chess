@@ -25,17 +25,9 @@ public class Server {
         Spark.post("/game", CreateGameHandler::handle);
         //Join Game
         Spark.put("/game", JoinGameHandler::handle);
-        //Exception Handler
-        Spark.exception(DataAccessException.class, this::handleException);
 
         Spark.awaitInitialization();
         return Spark.port();
-    }
-
-    public void handleException(DataAccessException ex, Request req, Response res) {
-        switch (res.status()) {
-            case 200:
-        }
     }
 
     public void stop() {

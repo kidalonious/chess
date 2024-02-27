@@ -13,11 +13,9 @@ import java.util.Map;
 
 public class ListGamesHandler {
     public static Object handle(Request request, Response response) throws Exception{
-        Collection<GameData> games = ListGamesService.listGames();
-        Map<String, Collection<GameData>> attributeMap = new HashMap<>();
-        attributeMap.put("games", games);
+        var games = ListGamesService.listGames().toArray();
         response.status(200);
         Gson gson = new Gson();
-        return gson.toJson(attributeMap);
+        return gson.toJson(games);
     }
 }

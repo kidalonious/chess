@@ -34,7 +34,7 @@ public class Server {
 
     public void handleException(DataAccessException ex, Request req, Response res) {
         switch (res.status()) {
-            case 
+            case 200:
         }
     }
 

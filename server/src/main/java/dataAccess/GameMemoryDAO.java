@@ -8,30 +8,29 @@ import java.util.HashMap;
 
 public class GameMemoryDAO implements GameDAO   {
     HashMap<Integer, GameData> gameData = new HashMap<>();
-    int gameID = 0;
+    int id = 0;
 
-    public void changeID() {
-        gameID++;
+    private void changeID() {
+        this.id++;
     }
     public void clear() {
         gameData.clear();
     }
 
     public int createGame(GameData newGame) {
-        gameData.put(gameID, newGame);
-        this.gameID++;
-        return gameID;
+        gameData.put(id, newGame);
+        changeID();
+        return newGame.gameID();
     }
 
+    public GameData getGame(int gameID) {
+        return gameData.get(gameID);
+    }
     public void updateGame(int gameID) {
 
     }
 
     public Collection<GameData> listGames() {
-        ArrayList<GameData> games = new ArrayList<>();
-        for (Integer game : gameData.keySet()) {
-            games.add(gameData.get(game));
-        }
-        return games;
+        return gameData.values();
     }
 }

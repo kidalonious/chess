@@ -1,14 +1,13 @@
 package dataAccess;
 
-import chess.ChessGame;
 import model.GameData;
-import model.UserData;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.UUID;
 
 public class GameMemoryDAO implements GameDAO   {
-    HashMap<String, GameData> gameData = new HashMap<>();
+    HashMap<Integer, GameData> gameData = new HashMap<>();
     int gameID = 0;
 
     public void changeID() {
@@ -18,9 +17,21 @@ public class GameMemoryDAO implements GameDAO   {
         gameData.clear();
     }
 
-    public void createGame(UserData whiteUser, UserData blackUser, String gameName) {
-        GameData game = new GameData(gameID, whiteUser.username(), blackUser.username(), gameName, new ChessGame());
+    public static int createGame(GameData newGame) {
+        gameData.put(gameID, newGame);
         changeID();
-        gameData.put(UUID.randomUUID().toString(), game);
+        return gameID-1;
+    }
+
+    public void updateGame(int gameID) {
+
+    }
+
+    public Collection<GameData> listGames() {
+        ArrayList<GameData> games = new ArrayList<>();
+        for (Integer game : gameData.keySet()) {
+            games.add(gameData.get(game));
+        }
+        return games;
     }
 }

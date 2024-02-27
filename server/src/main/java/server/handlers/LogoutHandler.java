@@ -6,8 +6,9 @@ import spark.Response;
 
 public class LogoutHandler {
     public static Object handle(Request request, Response response) {
-        //LogoutService.logout(user);
+        String authToken = request.headers("authorization");
+        LogoutService.logout(authToken);
         response.status(200);
-        return "";
+        return "[]";
     }
 }

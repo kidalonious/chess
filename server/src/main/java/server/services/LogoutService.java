@@ -1,7 +1,9 @@
 package server.services;
 
-public class LogoutService extends Service {
-    public static void logout() {
+import model.AuthData;
 
+public class LogoutService extends Service {
+    public static void logout(AuthData auth) {
+        authMemoryDAO.deleteAuth(auth);
     }
 }

@@ -1,6 +1,7 @@
 package server.handlers;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import model.GameData;
 import server.requests.GameRequest;
 import server.services.ListGamesService;
@@ -13,9 +14,11 @@ import java.util.Map;
 
 public class ListGamesHandler {
     public static Object handle(Request request, Response response) throws Exception{
-        var games = ListGamesService.listGames();
+        Collection<GameData> games = ListGamesService.listGames();
         response.status(200);
-        Gson gson = new Gson();
-        return gson.toJson(games);
+        Map<String, Collection<GameData>> attributeMap = new HashMap<>();
+        attributeMap.put("games", games);
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        return gson.toJson(attributeMap);
     }
 }

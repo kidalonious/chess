@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class ListGamesHandler {
     public static Object handle(Request request, Response response) throws Exception{
-        var games = ListGamesService.listGames().toArray();
+        var games = ListGamesService.listGames();
         response.status(200);
         Gson gson = new Gson();
         return gson.toJson(games);

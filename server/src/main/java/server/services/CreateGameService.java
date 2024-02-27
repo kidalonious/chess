@@ -5,6 +5,6 @@ import model.GameData;
 
 public class CreateGameService extends Service{
     public static int createGame(GameData newGame) {
-        return GameMemoryDAO.createGame(newGame);
+        return gameMemoryDAO.createGame(newGame);
     }
 }

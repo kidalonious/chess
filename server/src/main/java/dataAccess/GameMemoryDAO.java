@@ -17,10 +17,10 @@ public class GameMemoryDAO implements GameDAO   {
         gameData.clear();
     }
 
-    public static int createGame(GameData newGame) {
+    public int createGame(GameData newGame) {
         gameData.put(gameID, newGame);
-        changeID();
-        return gameID-1;
+        this.gameID++;
+        return gameID;
     }
 
     public void updateGame(int gameID) {

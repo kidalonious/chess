@@ -9,6 +9,6 @@ public class LogoutHandler {
         String authToken = request.headers("authorization");
         LogoutService.logout(authToken);
         response.status(200);
-        return "[]";
+        return "{}";
     }
 }

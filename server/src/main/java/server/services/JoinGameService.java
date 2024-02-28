@@ -10,6 +10,7 @@ import java.util.Objects;
 
 public class JoinGameService extends Service {
     public static void joinGame(JoinGameRequest request, String authToken) throws Exception {
+
         if (authMemoryDAO.getAuthData(authToken) == null) {
             throw new UnauthorizedException("unauthorized");
         }
@@ -29,6 +30,7 @@ public class JoinGameService extends Service {
         if (request.playerColor() == null) {
             return;
         }
+
         gameMemoryDAO.joinGame(request, authToken);
     }
 }

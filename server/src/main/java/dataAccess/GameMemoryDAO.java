@@ -22,8 +22,9 @@ public class GameMemoryDAO implements GameDAO   {
     }
 
     public int createGame(GameData newGame) {
-        newGame = new GameData(id++, newGame.whiteUsername(), newGame.blackUsername(), newGame.gameName(), newGame.game());
+        newGame = new GameData(id, newGame.whiteUsername(), newGame.blackUsername(), newGame.gameName(), newGame.game());
         gameData.put(id, newGame);
+        changeID();
         return newGame.gameID();
     }
 

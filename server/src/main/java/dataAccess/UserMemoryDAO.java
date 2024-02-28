@@ -16,11 +16,8 @@ public class UserMemoryDAO implements UserDAO {
         userData.put(user.username(), user);
     }
 
-    private boolean userExists(UserData user) throws DataAccessException{
-        if (userData.containsKey(user.username())) {
-            return true;
-        }
-        throw new DataAccessException("");
+    private boolean userExists(UserData user){
+        return userData.containsKey(user.username());
     }
 
     public UserData checkPassword(UserData user) throws DataAccessException {

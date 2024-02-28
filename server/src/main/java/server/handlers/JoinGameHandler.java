@@ -2,6 +2,7 @@ package server.handlers;
 
 import com.google.gson.Gson;
 import dataAccess.BadRequestException;
+import dataAccess.DataAccessException;
 import dataAccess.DuplicateException;
 import dataAccess.UnauthorizedException;
 import server.requests.JoinGameRequest;

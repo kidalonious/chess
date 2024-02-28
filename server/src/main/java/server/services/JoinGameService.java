@@ -1,6 +1,7 @@
 package server.services;
 
 import dataAccess.BadRequestException;
+import dataAccess.DataAccessException;
 import dataAccess.DuplicateException;
 import dataAccess.UnauthorizedException;
 import server.requests.JoinGameRequest;

@@ -14,7 +14,6 @@ public class CreateGameService extends Service{
         if (authMemoryDAO.getAuthData(request.headers("Authorization")) == null) {
             throw new UnauthorizedException("unauthorized");
         }
-
         return gameMemoryDAO.createGame(newGame);
     }
 }

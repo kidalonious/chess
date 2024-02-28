@@ -47,12 +47,12 @@ public class GameMemoryDAO implements GameDAO   {
             GameData copiedGame = new GameData(request.gameID(), currentWhiteUsername, newBlackUser, currentGameName, currentGame);
             gameData.replace(request.gameID(), copiedGame);
         }
-        if (request.playerColor().equals("WHITE")) {
+        else if (request.playerColor().equals("WHITE")) {
             String currentBlackUsername = gameData.get(request.gameID()).blackUsername();
             String currentGameName = gameData.get(request.gameID()).gameName();
             ChessGame currentGame = gameData.get(request.gameID()).game();
-            String newBlackUser = authMemoryDAO.getAuthData(authToken).username();
-            GameData copiedGame = new GameData(request.gameID(), currentBlackUsername, newBlackUser, currentGameName, currentGame);
+            String newWhiteUser = authMemoryDAO.getAuthData(authToken).username();
+            GameData copiedGame = new GameData(request.gameID(), newWhiteUser, currentBlackUsername, currentGameName, currentGame);
             gameData.replace(request.gameID(), copiedGame);
         }
     }

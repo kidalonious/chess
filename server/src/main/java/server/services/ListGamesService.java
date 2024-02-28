@@ -9,7 +9,7 @@ import spark.Response;
 import java.util.Collection;
 
 public class ListGamesService extends Service{
-    public static Collection<GameData> listGames(Request request, Response response) throws Exception{
+    public static Collection<GameData> listGames(Request request, Response response) throws Exception {
         if (request.headers("Authorization") == null) {
             response.status(401);
             throw new UnauthorizedException("unauthorized");

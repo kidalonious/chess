@@ -30,7 +30,6 @@ public class ListGamesHandler {
             errorMessage.put("message", "Error: " + e.getMessage());
             return new Gson().toJson(errorMessage);
         }
-
         catch (Exception e) {
             response.status(500);
             Map<String, String> errorMessage = new HashMap<>();

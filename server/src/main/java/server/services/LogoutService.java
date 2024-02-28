@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class LogoutService extends Service {
     public static void logout(String auth) throws UnauthorizedException, DataAccessException {
-        if (auth == null) {
+        if (authMemoryDAO.getAuthData(auth) == null) {
             throw new UnauthorizedException("unauthorized");
         }
         authMemoryDAO.deleteAuth(auth);

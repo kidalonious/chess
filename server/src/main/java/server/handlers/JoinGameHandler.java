@@ -17,8 +17,9 @@ public class JoinGameHandler {
     public static Object handle(Request request, Response response) {
         try {
             Gson gson = new Gson();
-            JoinGameRequest usableRequest = gson.fromJson(String.valueOf((request)), JoinGameRequest.class);
+            JoinGameRequest usableRequest = gson.fromJson((request.body()), JoinGameRequest.class);
             String authToken = request.headers("Authorization");
+
             JoinGameService.joinGame(usableRequest, authToken);
             response.status(200);
             return "";

@@ -8,9 +8,8 @@ import javax.xml.crypto.Data;
 
 public class ClearHandler {
     public static Object handle(Request request, Response response) {
-        //ClearService clearService = new ClearService();
-            ClearService.clear();
-            response.status(200);
-            return "";
+        ClearService.clear();
+        response.status(200);
+        return "";
     }
 }

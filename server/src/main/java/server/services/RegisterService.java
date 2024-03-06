@@ -10,10 +10,10 @@ public class RegisterService extends Service {
         if (userData.username() == null || userData.password() == null || userData.email() == null) {
             throw new BadRequestException("bad request");
         }
-        if (userMemoryDAO.userExists(userData)) {
+        if (userDAO.userExists(userData)) {
             throw new DuplicateException("already taken");
         }
-        userMemoryDAO.createUser(userData.username(), userData.password(), userData.email());
-        return authMemoryDAO.addAuthData(userData);
+        userDAO.createUser(userData.username(), userData.password(), userData.email());
+        return authDAO.addAuthData(userData);
     }
 }

@@ -2,8 +2,8 @@ package server.services;
 
 public class ClearService extends Service{
     public static void clear() {
-        userMemoryDAO.clear();
-        gameMemoryDAO.clear();
-        authMemoryDAO.clear();
+        userDAO.clear();
+        gameDAO.clear();
+        authDAO.clear();
     }
 }

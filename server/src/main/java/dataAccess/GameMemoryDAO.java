@@ -4,17 +4,16 @@ import chess.ChessGame;
 import model.GameData;
 import server.requests.JoinGameRequest;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-import static server.services.Service.authMemoryDAO;
+import static server.services.Service.authDAO;
 
 public class GameMemoryDAO implements GameDAO   {
     HashMap<Integer, GameData> gameData = new HashMap<>();
     int id = 0;
 
-    private void changeID() {
+    public void changeID() {
         this.id++;
     }
     public void clear() {
@@ -44,7 +43,7 @@ public class GameMemoryDAO implements GameDAO   {
             String currentWhiteUsername = gameData.get(request.gameID()).whiteUsername();
             String currentGameName = gameData.get(request.gameID()).gameName();
             ChessGame currentGame = gameData.get(request.gameID()).game();
-            String newBlackUser = authMemoryDAO.getAuthData(authToken).username();
+            String newBlackUser = authDAO.getAuthData(authToken).username();
             GameData copiedGame = new GameData(request.gameID(), currentWhiteUsername, newBlackUser, currentGameName, currentGame);
             gameData.replace(request.gameID(), copiedGame);
         }
@@ -52,7 +51,7 @@ public class GameMemoryDAO implements GameDAO   {
             String currentBlackUsername = gameData.get(request.gameID()).blackUsername();
             String currentGameName = gameData.get(request.gameID()).gameName();
             ChessGame currentGame = gameData.get(request.gameID()).game();
-            String newWhiteUser = authMemoryDAO.getAuthData(authToken).username();
+            String newWhiteUser = authDAO.getAuthData(authToken).username();
             GameData copiedGame = new GameData(request.gameID(), newWhiteUser, currentBlackUsername, currentGameName, currentGame);
             gameData.replace(request.gameID(), copiedGame);
         }

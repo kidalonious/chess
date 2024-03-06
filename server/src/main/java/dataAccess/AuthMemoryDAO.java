@@ -13,7 +13,7 @@ public class AuthMemoryDAO implements AuthDAO {
         authData.clear();
     }
 
-    private String generateAuthToken() {
+    public String generateAuthToken() {
         return UUID.randomUUID().toString();
     }
     public AuthData addAuthData(UserData userData) {

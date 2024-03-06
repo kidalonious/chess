@@ -1,11 +1,9 @@
 package server.services;
 
-import dataAccess.AuthMemoryDAO;
-import dataAccess.GameMemoryDAO;
-import dataAccess.UserMemoryDAO;
+import dataAccess.*;
 
 public class Service {
-    public static AuthMemoryDAO authMemoryDAO = new AuthMemoryDAO();
-    public static GameMemoryDAO gameMemoryDAO = new GameMemoryDAO();
-    public static UserMemoryDAO userMemoryDAO = new UserMemoryDAO();
+    public static AuthDAO authDAO = new AuthMemoryDAO();
+    public static GameDAO gameDAO = new GameMemoryDAO();
+    public static UserDAO userDAO = new UserMemoryDAO();
 }

@@ -1,18 +1,13 @@
-package unitTests;
+package serviceTests;
 
 import chess.ChessGame;
-import com.google.gson.Gson;
 import dataAccess.*;
 import model.AuthData;
 import model.GameData;
 import model.UserData;
 import org.junit.jupiter.api.Test;
-import server.handlers.LoginHandler;
-import server.handlers.RegisterHandler;
 import server.services.*;
-import spark.*;
 
-import java.util.Objects;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;

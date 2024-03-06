@@ -6,7 +6,7 @@ import server.requests.JoinGameRequest;
 import java.util.Collection;
 
 public interface GameDAO {
-    void clear();
+    void clear() throws DataAccessException;
     void changeID();
     int createGame(GameData newGame);
     GameData getGame(int gameID);

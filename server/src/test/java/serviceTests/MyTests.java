@@ -19,9 +19,10 @@ public class MyTests {
 
     @Test
     public void testValidRegister() {
-        ClearService.clear();
-        UserData testUser = new UserData("galston", "reaciton", "urmom@gmail.com");
         try{
+            ClearService.clear();
+            UserData testUser = new UserData("galston", "reaciton", "urmom@gmail.com");
+
             AuthData authData = RegisterService.register(testUser);
             assertEquals("galston", authMemoryDAO.getAuthData(authData.authToken()).username());
         }
@@ -32,9 +33,10 @@ public class MyTests {
     }
     @Test
     public void testInvalidRegister() {
+        try{
         ClearService.clear();
         UserData testUser = new UserData("galston", "reaciton", "");
-        try{
+
             AuthData authData = RegisterService.register(testUser);
         }
         catch (Exception e) {
@@ -44,10 +46,11 @@ public class MyTests {
     }
     @Test
     public void testInvalidLogin() {
+        try{
         ClearService.clear();
         UserData testUser = new UserData("galston", "reaciton", "urmom@gmail.com");
         UserData otherTestUser = new UserData("garston", "reaction", "urmom@gmail.com");
-        try {
+
             AuthData other = LoginService.loginUser(otherTestUser);
             AuthData correct = LoginService.loginUser(testUser);
             assertNotEquals(other, correct);
@@ -58,9 +61,9 @@ public class MyTests {
     }
     @Test
     public void testValidLogin() {
+        try{
         ClearService.clear();
         UserData testUser = new UserData("galston", "reaciton", "urmom@gmail.com");
-        try {
             LoginService.loginUser(testUser);
         }
         catch (Exception e) {
@@ -69,9 +72,10 @@ public class MyTests {
     }
     @Test
     public void testValidLogout() {
+        try{
         ClearService.clear();
         AuthData testAuth = new AuthData("galston", UUID.randomUUID().toString());
-        try {
+
             LogoutService.logout(testAuth.authToken());
         }
         catch (Exception e) {
@@ -80,9 +84,10 @@ public class MyTests {
     }
     @Test
     public void testInvalidLogout() {
+        try{
         ClearService.clear();
         AuthData testAuth = new AuthData("galston", UUID.randomUUID().toString());
-        try {
+
             LogoutService.logout(testAuth.authToken());
             assertNull(authMemoryDAO.getAuthData(testAuth.authToken()));
         }
@@ -92,16 +97,27 @@ public class MyTests {
     }
     @Test
     public void testValidCreateGame() {
-        ClearService.clear();
+        try {
+            ClearService.clear();
 
-        GameData testGame = new GameData(3, null, null, "newGame", new ChessGame());
-        assertEquals(3, testGame.gameID());
+            GameData testGame = new GameData(3, null, null, "newGame", new ChessGame());
+            assertEquals(3, testGame.gameID());
+
+        } catch (Exception e) {
+
+        }
     }
+
+
     @Test
     public void testInvalidCreateGame() {
-        ClearService.clear();
-        GameData testGame = new GameData(3, null, null, "newGame", new ChessGame());
-        assertNotEquals(2, testGame.gameID());
+        try {
+            ClearService.clear();
+            GameData testGame = new GameData(3, null, null, "newGame", new ChessGame());
+            assertNotEquals(2, testGame.gameID());
+        } catch (Exception e) {
+
+        }
     }
     @Test
     public void testValidClear() {

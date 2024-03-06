@@ -10,7 +10,7 @@ public class RegisterService extends Service {
         if (userData.username() == null || userData.password() == null || userData.email() == null) {
             throw new BadRequestException("bad request");
         }
-        if (userDAO.userExists(userData)) {
+        if (userDAO.getUser(userData) == null) {
             throw new DuplicateException("already taken");
         }
         userDAO.createUser(userData.username(), userData.password(), userData.email());

@@ -7,9 +7,9 @@ import org.springframework.security.core.userdetails.User;
 public interface AuthDAO {
     void clear() throws DataAccessException;
 
-    AuthData getAuthData(String authToken);
-    AuthData addAuthData(UserData userData);
+    AuthData getAuthData(String authToken) throws DataAccessException;
+    AuthData addAuthData(UserData userData) throws DataAccessException;
     String generateAuthToken();
-    void deleteAuth(String auth);
+    void deleteAuth(String auth) throws DataAccessException;
 
 }

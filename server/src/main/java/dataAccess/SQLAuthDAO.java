@@ -3,6 +3,7 @@ package dataAccess;
 import model.AuthData;
 import model.UserData;
 
+import java.sql.Connection;
 import java.sql.Statement;
 import java.util.UUID;
 
@@ -16,18 +17,25 @@ public class SQLAuthDAO implements AuthDAO {
     }
     @Override
     public void clear() throws DataAccessException {
-        var statement = "TRUNCATE auth";
+        var statement = "TRUNCATE TABLE auth";
         executeUpdate(statement);
     }
 
     @Override
     public AuthData getAuthData(String authToken) throws DataAccessException {
-//        var statement = "SELECT * FROM auth WHERE authToken=?";
-//        var id = executeUpdate(statement, authToken);
-//        if (id == 0) {
-//            return null;
-//        }
-//        return new AuthData("username", authToken);
+        try (var conn = DatabaseManager.getConnection()) {
+            var statement = "SELECT * FROM auth WHERE authToken=?";
+            try (var ps = conn.prepareStatement(statement)) {
+                ps.setString(1, authToken);
+                try (var rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        return new AuthData(rs.getString("username"), authToken);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new DataAccessException("Error: ");
+        }
         return null;
     }
 
@@ -50,8 +58,8 @@ public class SQLAuthDAO implements AuthDAO {
         executeUpdate(statement, auth);
     }
 
-    private void executeUpdate(String statement, Object... params) throws DataAccessException {
-        try (var conn = DatabaseManager.getConnection()) {
+    private int executeUpdate(String statement, Object... params) throws DataAccessException {
+        try (Connection conn = DatabaseManager.getConnection()) {
             try (var ps = conn.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS)) {
                 for (var i = 0; i < params.length; i++) {
                     var param = params[i];
@@ -63,8 +71,9 @@ public class SQLAuthDAO implements AuthDAO {
 
                 var rs = ps.getGeneratedKeys();
                 if (rs.next()) {
-                    rs.getInt(1);
+                    return rs.getInt(1);
                 }
+                return 0;
             }
         } catch (Exception e) {
             throw new DataAccessException(String.format("unable to update database: %s, %s", statement, e.getMessage()));

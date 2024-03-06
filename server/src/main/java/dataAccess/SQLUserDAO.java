@@ -1,5 +1,6 @@
 package dataAccess;
 
+import model.AuthData;
 import model.UserData;
 
 import java.sql.Statement;
@@ -13,18 +14,25 @@ public class SQLUserDAO implements UserDAO {
     }
     @Override
     public void clear() throws DataAccessException {
-        var statement = "TRUNCATE auth";
+        var statement = "TRUNCATE TABLE user";
         executeUpdate(statement);
     }
 
     @Override
     public UserData getUser(UserData user) throws DataAccessException {
-//        var statement = "SELECT * FROM user WHERE username=?";
-//        int id = executeUpdate(statement, user.username());
-//        if (id == 0) {
-//            return null;
-//        }
-//        return user;
+        try (var conn = DatabaseManager.getConnection()) {
+            var statement = "SELECT * FROM user WHERE username=?";
+            try (var ps = conn.prepareStatement(statement)) {
+                ps.setString(1, user.username());
+                try (var rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        return new UserData(rs.getString("username"), rs.getString("password"), rs.getString("email"));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new DataAccessException("Error: ");
+        }
         return null;
     }
 

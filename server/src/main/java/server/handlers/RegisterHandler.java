@@ -34,6 +34,7 @@ public class RegisterHandler {
             return new Gson().toJson(errorMessage);
         }
         catch (Exception e) {
+            e.printStackTrace();
             response.status(500);
             Map<String, String> errorMessage = new HashMap<>();
             errorMessage.put("message", "Error: " + e.getMessage());

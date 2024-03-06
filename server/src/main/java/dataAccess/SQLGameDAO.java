@@ -15,7 +15,7 @@ public class SQLGameDAO implements GameDAO{
     }
     @Override
     public void clear() throws DataAccessException {
-        var statement = "TRUNCATE game";
+        var statement = "TRUNCATE TABLE game";
         executeUpdate(statement);
     }
 

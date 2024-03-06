@@ -5,7 +5,7 @@ import model.UserData;
 import org.springframework.security.core.userdetails.User;
 
 public interface AuthDAO {
-    void clear();
+    void clear() throws DataAccessException;
 
     AuthData getAuthData(String authToken);
     AuthData addAuthData(UserData userData);

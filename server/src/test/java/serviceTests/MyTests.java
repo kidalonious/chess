@@ -13,9 +13,12 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MyTests {
-    AuthMemoryDAO authMemoryDAO;
-    GameMemoryDAO gameMemoryDAO;
-    UserMemoryDAO userMemoryDAO;
+    AuthDAO authDAO = new SQLAuthDAO();
+    GameDAO gameDAO = new SQLGameDAO();
+    UserDAO userDAO = new SQLUserDAO();
+
+    public MyTests() throws DataAccessException {
+    }
 
     @Test
     public void testValidRegister() {
@@ -24,7 +27,7 @@ public class MyTests {
             UserData testUser = new UserData("galston", "reaciton", "urmom@gmail.com");
 
             AuthData authData = RegisterService.register(testUser);
-            assertEquals("galston", authMemoryDAO.getAuthData(authData.authToken()).username());
+            assertEquals("galston", authDAO.getAuthData(authData.authToken()).username());
         }
         catch (Exception e) {
             //swallow exceptions
@@ -89,7 +92,7 @@ public class MyTests {
         AuthData testAuth = new AuthData("galston", UUID.randomUUID().toString());
 
             LogoutService.logout(testAuth.authToken());
-            assertNull(authMemoryDAO.getAuthData(testAuth.authToken()));
+            assertNull(authDAO.getAuthData(testAuth.authToken()));
         }
         catch (UnauthorizedException | DataAccessException e) {
 
@@ -124,7 +127,7 @@ public class MyTests {
         try {
             AuthData authData = RegisterService.register(new UserData("galston", "reaciton", "urmom@gmail.com"));
             ClearService.clear();
-            assertNull(authMemoryDAO.getAuthData(authData.authToken()));
+            assertNull(authDAO.getAuthData(authData.authToken()));
         }
         catch (Exception e){
         }

@@ -5,6 +5,7 @@ import server.requests.JoinGameRequest;
 
 import java.sql.Statement;
 import java.util.Collection;
+import java.util.Objects;
 
 import static java.sql.Types.NULL;
 
@@ -26,7 +27,7 @@ public class SQLGameDAO implements GameDAO{
 
     @Override
     public int createGame(GameData newGame) throws DataAccessException {
-        var statement = "INSERT INTO game (gameName) VALUES (?)";
+        var statement = "INSERT INTO game SET gameName=?";
         return executeUpdate(statement, newGame.gameName());
     }
 
@@ -41,8 +42,17 @@ public class SQLGameDAO implements GameDAO{
     }
 
     @Override
-    public void joinGame(JoinGameRequest request, String authToken) {
-
+    public void joinGame(JoinGameRequest request, String authToken) throws DataAccessException {
+        var statement = "";
+        if (Objects.equals(request.playerColor(), "WHITE")) {
+            statement = "UPDATE game SET whiteUsername=? WHERE gameID=?";
+        }
+        else if (Objects.equals(request.playerColor(), "BLACK")) {
+            statement = "UPDATE game SET blackUsername=? WHERE gameID=?";
+        }
+        else return;
+        String username = new SQLAuthDAO().getAuthData(authToken).username();
+        executeUpdate(statement, username, request.gameID());
     }
 
     private int executeUpdate(String statement, Object... params) throws DataAccessException {
@@ -73,7 +83,7 @@ public class SQLGameDAO implements GameDAO{
               `gameID` int NOT NULL AUTO_INCREMENT,
               `whiteUsername` varchar(256) DEFAULT NULL,
               `blackUsername` varchar(256) DEFAULT NULL,
-              `gameName` varchar(256) NOT NULL,
+              `gameName` varchar(256) DEFAULT NULL,
               `game` TEXT DEFAULT NULL,
               PRIMARY KEY (`gameID`)
             )

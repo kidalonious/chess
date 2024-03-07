@@ -11,5 +11,5 @@ public interface GameDAO {
     int createGame(GameData newGame) throws DataAccessException;
     GameData getGame(int gameID);
     Collection<GameData> listGames();
-    void joinGame(JoinGameRequest request, String authToken);
+    void joinGame(JoinGameRequest request, String authToken) throws DataAccessException;
 }

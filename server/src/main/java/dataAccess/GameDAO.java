@@ -10,6 +10,6 @@ public interface GameDAO {
     void changeID();
     int createGame(GameData newGame) throws DataAccessException;
     GameData getGame(int gameID) throws Exception;
-    Collection<GameData> listGames();
+    Collection<GameData> listGames() throws Exception;
     void joinGame(JoinGameRequest request, String authToken) throws DataAccessException;
 }

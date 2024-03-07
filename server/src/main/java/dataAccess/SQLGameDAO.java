@@ -8,6 +8,7 @@ import server.requests.JoinGameRequest;
 
 import javax.xml.crypto.Data;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -48,17 +49,25 @@ public class SQLGameDAO implements GameDAO{
                         return new GameData(gameID, rs.getString("whiteUsername"),
                                 rs.getString("blackUsername"), rs.getString("gameName"), game);
                     }
+                    return null;
                 }
             }
         } catch (Exception e) {
             throw new DataAccessException("Error: ");
         }
-        return null;
     }
 
     @Override
-    public Collection<GameData> listGames() {
-        return null;
+    public Collection<GameData> listGames() throws Exception {
+        ArrayList<GameData> gameList = new ArrayList<>();
+        int i = 1;
+        GameData singleGame = getGame(i);
+        while (singleGame != null) {
+            gameList.add(singleGame);
+            i++;
+            singleGame = getGame(i);
+        }
+        return gameList;
     }
 
     @Override

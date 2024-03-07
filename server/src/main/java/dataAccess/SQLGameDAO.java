@@ -25,8 +25,9 @@ public class SQLGameDAO implements GameDAO{
     }
 
     @Override
-    public int createGame(GameData newGame) {
-        return 0;
+    public int createGame(GameData newGame) throws DataAccessException {
+        var statement = "INSERT INTO game (gameName) VALUES (?)";
+        return executeUpdate(statement, newGame.gameName());
     }
 
     @Override
@@ -44,7 +45,7 @@ public class SQLGameDAO implements GameDAO{
 
     }
 
-    private void executeUpdate(String statement, Object... params) throws DataAccessException {
+    private int executeUpdate(String statement, Object... params) throws DataAccessException {
         try (var conn = DatabaseManager.getConnection()) {
             try (var ps = conn.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS)) {
                 for (var i = 0; i < params.length; i++) {
@@ -57,9 +58,9 @@ public class SQLGameDAO implements GameDAO{
 
                 var rs = ps.getGeneratedKeys();
                 if (rs.next()) {
-                    rs.getInt(1);
+                    return rs.getInt(1);
                 }
-
+                return 0;
             }
         } catch (Exception e) {
             throw new DataAccessException(String.format("unable to update database: %s, %s", statement, e.getMessage()));
@@ -70,8 +71,8 @@ public class SQLGameDAO implements GameDAO{
             """
             CREATE TABLE IF NOT EXISTS `game` (
               `gameID` int NOT NULL AUTO_INCREMENT,
-              `whiteUsername` varchar(256) NOT NULL,
-              `blackUsername` varchar(256) NOT NULL,
+              `whiteUsername` varchar(256) DEFAULT NULL,
+              `blackUsername` varchar(256) DEFAULT NULL,
               `gameName` varchar(256) NOT NULL,
               `game` TEXT DEFAULT NULL,
               PRIMARY KEY (`gameID`)

@@ -80,13 +80,13 @@ public class SQLGameDAO implements GameDAO{
     private final String[] createStatements = {
             """
             CREATE TABLE IF NOT EXISTS `game` (
-              `gameID` int NOT NULL AUTO_INCREMENT,
-              `whiteUsername` varchar(256) DEFAULT NULL,
-              `blackUsername` varchar(256) DEFAULT NULL,
-              `gameName` varchar(256) DEFAULT NULL,
-              `game` TEXT DEFAULT NULL,
-              PRIMARY KEY (`gameID`)
-            )
+                 `gameID` int NOT NULL AUTO_INCREMENT,
+                 `whiteUsername` varchar(256) DEFAULT NULL,
+                 `blackUsername` varchar(256) DEFAULT NULL,
+                 `gameName` varchar(256) NOT NULL,
+                 `game` TEXT DEFAULT NULL,
+                 PRIMARY KEY (`gameID`)
+             );
             """
     };
     private void configureDatabase() throws DataAccessException {

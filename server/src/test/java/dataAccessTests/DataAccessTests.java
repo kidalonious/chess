@@ -6,10 +6,8 @@ import model.AuthData;
 import model.GameData;
 import model.UserData;
 import org.junit.jupiter.api.Test;
-import server.services.ClearService;
-import server.services.LoginService;
-import server.services.LogoutService;
-import server.services.RegisterService;
+import server.requests.JoinGameRequest;
+import server.services.*;
 
 import java.util.UUID;
 
@@ -122,6 +120,33 @@ public class DataAccessTests {
             ClearService.clear();
             GameData testGame = new GameData(3, null, null, "newGame", new ChessGame());
             assertNotEquals(2, testGame.gameID());
+        } catch (Exception e) {
+
+        }
+    }
+    @Test
+    public void testValidJoinGame() {
+        try {
+            ClearService.clear();
+            UserData testUser = new UserData("galston", "reaciton", "urmom@gmail.com");
+            RegisterService.register(testUser);
+            AuthData auth = LoginService.loginUser(testUser);
+            JoinGameService.joinGame(new JoinGameRequest("WHITE", 1), authDAO.getAuthData(auth.authToken()).authToken());
+            assertEquals(testUser.username(), gameDAO.getGame(1).whiteUsername());
+        }
+        catch (Exception e) {
+
+        }
+    }
+    @Test
+    public void testInvalidJoinGame() {
+        try {
+            ClearService.clear();
+            UserData testUser = new UserData("galston", "reaciton", "urmom@gmail.com");
+            RegisterService.register(testUser);
+            AuthData auth = LoginService.loginUser(testUser);
+            JoinGameService.joinGame(new JoinGameRequest("", 1), authDAO.getAuthData(auth.authToken()).authToken());
+            assertNotEquals(testUser.username(), gameDAO.getGame(1).whiteUsername());
         } catch (Exception e) {
 
         }

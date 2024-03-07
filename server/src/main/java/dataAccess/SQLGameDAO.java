@@ -73,7 +73,7 @@ public class SQLGameDAO implements GameDAO{
                 return 0;
             }
         } catch (Exception e) {
-            throw new DataAccessException(String.format("unable to update database: %s, %s", statement, e.getMessage()));
+            throw new DataAccessException("Error: ");
         }
     }
 

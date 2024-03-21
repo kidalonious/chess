@@ -3,6 +3,8 @@ package ui;
 public class Repl {
     static String authToken;
     static States state = States.LOGGEDOUT;
+    public static LoggedInClient loggedInClient;
+    public static LoggedOutClient loggedOutClient;
     public static String getAuth() {
         return authToken;
     }

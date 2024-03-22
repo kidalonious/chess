@@ -18,7 +18,7 @@ public class DrawnBoard {
         PrintStream output = new PrintStream(System.out, true, StandardCharsets.UTF_8);
         output.print(ERASE_SCREEN);
 
-        chess.ChessBoard board = new ChessBoard();
+        ChessBoard board = new ChessBoard();
         board.resetBoard();
         drawSquares(output, board);
 
@@ -33,8 +33,21 @@ public class DrawnBoard {
     private static void headers(PrintStream output) {
         setBlack(output);
 
-        String[] headers = {" a ", " b ", " c ", " d ", " e ", " f ", " g ", " h "};
-        for (int boardCol = 0; boardCol <= BOARD_SIZE_IN_SQUARES; ++boardCol) {
+        String[] headers = {"   ", " a ", " b ", " c ", " d ", " e ", " f ", " g ", " h "};
+        for (int boardCol = 0; boardCol <= BOARD_SIZE_IN_SQUARES; boardCol++) {
+            output.print(SET_BG_COLOR_BLACK);
+            output.print(SET_TEXT_COLOR_GREEN);
+
+            output.print(headers[boardCol]);
+        }
+        output.println();
+    }
+
+    private static void headersReversed(PrintStream output) {
+        setBlack(output);
+
+        String[] headers = {"   ", " h ", " g ", " f ", " e ", " d ", " c ", " b ", " a "};
+        for (int boardCol = 0; boardCol <= BOARD_SIZE_IN_SQUARES; boardCol++) {
             output.print(SET_BG_COLOR_BLACK);
             output.print(SET_TEXT_COLOR_GREEN);
 
@@ -46,40 +59,29 @@ public class DrawnBoard {
 
     private static void drawSquares(PrintStream output, ChessBoard board)
     {
-
         headers(output);
-
-        String[] rowHeaders = {" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 "};
-
-        //for each row
-        for (int rowInBoard = 1; rowInBoard <= BOARD_SIZE_IN_SQUARES; ++rowInBoard)
-        {
-            //print the column with the row names
+        String[] rowHeaders = {"placeholder"," 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 "};
+        for (int row = 1; row <= BOARD_SIZE_IN_SQUARES; row++) {
             output.print(SET_BG_COLOR_BLACK);
             output.print(SET_TEXT_COLOR_BLUE);
-            output.print(rowHeaders[rowInBoard]);
-
-            for (int squareInRow = 1; squareInRow <= BOARD_SIZE_IN_SQUARES; squareInRow += 1) {
-                //set the char to print here
-                setCurrentChar(board, rowInBoard, squareInRow);
-                if((squareInRow + rowInBoard) % 2 == 0) {
+            output.print(rowHeaders[row]);
+            for (int square = 1; square <= BOARD_SIZE_IN_SQUARES; square++) {
+                setChar(board, row, square);
+                if((square + row) % 2 == 0) {
                     output.print(SET_BG_COLOR_WHITE);
                     output.print(SET_TEXT_COLOR_BLACK);
                     output.print(currentColor);
                     output.print(currentChar);
                 }
-                else
-                {
+                else {
                     output.print(SET_BG_COLOR_BLACK);
                     output.print(currentColor);
                     output.print(currentChar);
                 }
             }
-
-            //print the column with the row names
             output.print(SET_BG_COLOR_BLACK);
             output.print(SET_TEXT_COLOR_BLUE);
-            output.print(rowHeaders[rowInBoard]);
+            output.print(rowHeaders[row]);
             setBlack(output);
             output.println();
 
@@ -89,60 +91,44 @@ public class DrawnBoard {
         output.println();
     }
 
-    private static void drawBoardReversed(PrintStream output, ChessBoard board)
-    {
-
-        headers(output);
-
-        String[] rowHeaders = {"   ", " 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 "};
-
-        //for each row
-        for (int rowInBoard = 8; rowInBoard >= 1;  --rowInBoard)
-        {
-            //print the column with the row names
+    private static void drawBoardReversed(PrintStream output, ChessBoard board) {
+        headersReversed(output);
+        String[] rowHeaders = {" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", "   "};
+        for (int row = 8; row >= 0;  row--) {
             output.print(SET_BG_COLOR_BLACK);
             output.print(SET_TEXT_COLOR_BLUE);
-            output.print(rowHeaders[rowInBoard]);
-
-            for (int squareInRow = 1; squareInRow <= BOARD_SIZE_IN_SQUARES; squareInRow += 1) {
-                //set the char to print here
-                setCurrentChar(board, rowInBoard, squareInRow);
-                if((squareInRow + rowInBoard) % 2 == 0) {
+            output.print(rowHeaders[row]);
+            for (int square = 0; square < BOARD_SIZE_IN_SQUARES; square++) {
+                setChar(board, row, square);
+                if((square + row) % 2 == 0) {
                     output.print(SET_BG_COLOR_WHITE);
                     output.print(SET_TEXT_COLOR_BLACK);
                     output.print(currentColor);
                     output.print(currentChar);
                 }
-                else
-                {
+                else {
                     output.print(SET_BG_COLOR_BLACK);
                     output.print(currentColor);
                     output.print(currentChar);
                 }
             }
-
-            //print the column with the row names
             output.print(SET_BG_COLOR_BLACK);
             output.print(SET_TEXT_COLOR_BLUE);
-            output.print(rowHeaders[rowInBoard]);
+            output.print(rowHeaders[row]);
             setBlack(output);
             output.println();
-
         }
-
         headers(output);
         output.println();
     }
 
-    private static void setCurrentChar(ChessBoard board, int rowInBoard, int squareInRow) {
-        ChessPiece piece = board.getPiece(new ChessPosition(rowInBoard, squareInRow));
-
+    private static void setChar(ChessBoard board, int row, int square) {
+        ChessPiece piece = board.getPiece(new ChessPosition(row, square));
         if (piece == null) {
             currentChar = EMPTY;
             currentColor = SET_TEXT_COLOR_BLACK;
             return;
         }
-
         switch (piece.getPieceType()) {
             case KING:
                 currentChar = " K ";

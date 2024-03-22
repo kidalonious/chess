@@ -13,8 +13,8 @@ public class Main {
             serverUrl = args[0];
         }
 
-        Server chessServer = new Server();
-        chessServer.run(8080);
+        Server server = new Server();
+        server.run(8080);
 
         try{
             AuthDAO authDAO = new SQLAuthDAO();

@@ -9,6 +9,7 @@ import server.*;
 import server.results.GameResult;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 public class LoggedInClient extends BaseClient {
 
@@ -68,9 +69,8 @@ public class LoggedInClient extends BaseClient {
             GameRequest newRequest = new GameRequest();
             newRequest.gameID = Integer.parseInt(params[0]);
 
-            if(params.length == 2)
-            {
-                newRequest.playerColor = params[1];
+            if(params.length == 2) {
+                newRequest.playerColor = params[1].toUpperCase(Locale.ROOT);
             }
             JoinGameRequest joinGameRequest = new JoinGameRequest(newRequest.playerColor, newRequest.gameID);
             server.joinGame(joinGameRequest);

@@ -1,5 +1,7 @@
 package ui;
 
+import java.util.Scanner;
+
 public class Repl {
     static String authToken;
     static States state = States.LOGGEDOUT;
@@ -15,5 +17,10 @@ public class Repl {
 
     public void run() {
         System.out.println("Welcome to Chess!");
+        Scanner scanner = new Scanner(System.in);
+        var userInput = "";
+        while (userInput != "quit") {
+
+        }
     }
 }

@@ -1,4 +1,4 @@
 package ui;
 
-public class LoggedInClient {
+public class LoggedInClient extends BaseClient {
 }

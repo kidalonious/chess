@@ -68,7 +68,7 @@ public class LoggedInClient extends BaseClient {
             {
                 newRequest.playerColor = params[1];
             }
-            JoinGameRequest joinGameRequest = new JoinGameRequest(newRequest.playerColor, newRequest.gameID)
+            JoinGameRequest joinGameRequest = new JoinGameRequest(newRequest.playerColor, newRequest.gameID);
             server.joinGame(joinGameRequest);
             String[] startPosition = new String[]{"0"};
 

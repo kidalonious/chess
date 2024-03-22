@@ -108,6 +108,7 @@ public class LoggedInClient extends BaseClient {
                 list <AUTHTOKEN> - games
                 join <ID> [BLACK | WHITE | <empty>] - a game
                 observe <ID> - a game
+                logout - when you are done
                 quit - playing chess
                 help - with possible commands
                 """;

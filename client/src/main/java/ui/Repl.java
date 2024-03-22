@@ -8,15 +8,17 @@ public class Repl {
     static States state = States.LOGGEDOUT;
     public static LoggedInClient loggedInClient;
     public static LoggedOutClient loggedOutClient;
+
+    public Repl(String serverURL) {
+        loggedOutClient = new LoggedOutClient(serverURL);
+        loggedInClient = new LoggedInClient(serverURL);
+        authToken = "";
+    }
     public static String getAuth() {
         return authToken;
     }
     public static void setAuth(String newAuth) {
         authToken = newAuth;
-    }
-    public Repl(String serverURL) {
-        loggedOutClient = new LoggedOutClient(serverURL);
-        loggedInClient = new LoggedInClient(serverURL);
     }
 
     public void run() {
@@ -27,7 +29,7 @@ public class Repl {
         System.out.println(loggedOutClient.help());
         while (!Objects.equals(userInput, "quit")) {
             if (state == States.LOGGEDOUT) {
-                //BaseClient.print();
+                BaseClient.print();
                 userInput = scanner.nextLine();
                 try {
                     method = loggedOutClient.eval(userInput);
@@ -41,7 +43,7 @@ public class Repl {
             }
             if (state == States.LOGGEDIN) {
                 System.out.println(loggedInClient.help());
-                //BaseClient.print();
+                BaseClient.print();
                 userInput = scanner.nextLine();
                 try {
                     method = loggedInClient.eval(userInput);

@@ -29,7 +29,7 @@ public class ServerFacade {
         this.makeRequest("DELETE", path, null, null, null);
     }
 
-    public String login(BaseRequest loginRequest) throws ResponseException{
+    public String login(UserRequest loginRequest) throws ResponseException{
         var path = "/session";
         var response = this.makeRequest("POST", path, loginRequest, UserResult.class, null);
         Repl.setAuth(response.authToken);

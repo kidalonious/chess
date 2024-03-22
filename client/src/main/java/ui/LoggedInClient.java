@@ -6,6 +6,7 @@ import server.requests.GameRequest;
 import server.requests.JoinGameRequest;
 import server.requests.UserRequest;
 import server.*;
+import server.results.GameResult;
 
 import java.util.Arrays;
 
@@ -48,14 +49,16 @@ public class LoggedInClient extends BaseClient {
 
     public String listGames(String ... params) throws ResponseException{
         GameRequest newRequest = new GameRequest();
-
+        StringBuilder gameList = new StringBuilder();
         var games = server.listGames(newRequest);
-        var result = new StringBuilder();
-        var gson = new Gson();
+        int i = 1;
         for (var game : games) {
-            result.append(gson.toJson(game)).append('\n');
+            gameList.append("Game #").append(i).append(": ").append("\n   ").append("GameID: ").append(game.gameID).append("\n   ");
+            gameList.append("Game Name: ").append(game.gameName).append("\n   ");
+            gameList.append("White Player: ").append(game.whiteUsername).append("\n   ");
+            gameList.append("Black Player: ").append(game.blackUsername).append("\n   ");
         }
-        return result.toString();
+        return gameList.toString();
 
     }
 

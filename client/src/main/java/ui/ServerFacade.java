@@ -14,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class ServerFacade {
     private final String serverUrl;
@@ -53,10 +54,12 @@ public class ServerFacade {
         return response.gameID.toString();
     }
 
-    public ArrayList listGames(GameRequest gameRequest) throws ResponseException
-    {
+    public Collection<GameResult> listGames(GameRequest gameRequest) throws ResponseException {
         var path = "/game";
-        return this.makeRequest("GET", path, gameRequest, ArrayList.class, Repl.getAuth());
+        Collection<GameResult> games = new ArrayList<>();
+        var request = this.makeRequest("GET", path, gameRequest, GameResult.class, Repl.getAuth());
+        games.add(request);
+        return games;
     }
 
     public void joinGame(JoinGameRequest gameRequest) throws ResponseException {

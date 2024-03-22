@@ -9,6 +9,7 @@ import server.requests.UserRequest;
 import ui.ServerFacade;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ServerFacadeTests {
 
     private static Server server;
-    private static ServerFacade facade;
+    private static ServerFacade serverFacade;
 
     @BeforeAll
     public static void init() {
@@ -25,14 +26,14 @@ public class ServerFacadeTests {
         System.out.println("Started test HTTP server on " + port);
 
         var serverUrl = "http://localhost:" + port;
-        facade = new ServerFacade(serverUrl);
+        serverFacade = new ServerFacade(serverUrl);
     }
 
     @BeforeEach
     public void clear() {
         try
         {
-            facade.clear();
+            serverFacade.clear();
         }
         catch (Exception ex)
         {
@@ -61,8 +62,8 @@ public class ServerFacadeTests {
         var authData = "";
 
         try {
-            facade.register(newRequest);
-            authData = facade.login(newRequest);
+            serverFacade.register(newRequest);
+            authData = serverFacade.login(newRequest);
         }
         catch(Exception ex)
         {
@@ -86,8 +87,8 @@ public class ServerFacadeTests {
         loginRequest.password = "wrong";
 
         try {
-            facade.register(newRequest);
-            facade.login(loginRequest);
+            serverFacade.register(newRequest);
+            serverFacade.login(loginRequest);
         }
         catch(Exception ex)
         {
@@ -103,7 +104,7 @@ public class ServerFacadeTests {
         newRequest.password = "alstogra";
         newRequest.email = "grant@gmail.com";
 
-        var authData = facade.register(newRequest);
+        var authData = serverFacade.register(newRequest);
         assertTrue(authData.length() > 10);
     }
 
@@ -114,7 +115,7 @@ public class ServerFacadeTests {
         newRequest.email = "grant@gmail.com";
 
         try {
-            var authData = facade.register(newRequest);
+            var authData = serverFacade.register(newRequest);
         }
         catch(Exception ex)
         {
@@ -132,16 +133,16 @@ public class ServerFacadeTests {
         String message = "";
 
         try {
-            facade.register(newRequest);
-            facade.login(newRequest);
-            facade.logout(newRequest);
+            serverFacade.register(newRequest);
+            serverFacade.login(newRequest);
+            serverFacade.logout(newRequest);
         }
         catch(Exception ex)
         {
             message = ex.getMessage();
         }
 
-        assertTrue(message.equals(""));
+        assertEquals("", message);
     }
 
     @Test
@@ -153,7 +154,7 @@ public class ServerFacadeTests {
         newRequest.email = "grant@gmail.com";
 
         try {
-            facade.logout(newRequest);
+            serverFacade.logout(newRequest);
         }
         catch(Exception ex)
         {
@@ -175,9 +176,9 @@ public class ServerFacadeTests {
         gameRequest.gameName = "newgame";
 
         try {
-            facade.register(newRequest);
-            facade.login(newRequest);
-            id = Integer.parseInt(facade.createGame(gameRequest));
+            serverFacade.register(newRequest);
+            serverFacade.login(newRequest);
+            id = Integer.parseInt(serverFacade.createGame(gameRequest));
         }
         catch(Exception ex)
         {
@@ -200,8 +201,8 @@ public class ServerFacadeTests {
         gameRequest.gameName = "newgame";
 
         try {
-            facade.register(newRequest);
-            id = Integer.parseInt(facade.createGame(gameRequest));
+            serverFacade.register(newRequest);
+            id = Integer.parseInt(serverFacade.createGame(gameRequest));
         }
         catch(Exception ex)
         {
@@ -216,22 +217,22 @@ public class ServerFacadeTests {
         newRequest.username = "grant";
         newRequest.password = "alstogra";
         newRequest.email = "grant@gmail.com";
-        ArrayList gameList = new ArrayList();
 
         GameRequest gameRequest = new GameRequest();
         gameRequest.gameName = "newgame";
 
         try {
-            facade.register(newRequest);
-            facade.login(newRequest);
-            facade.createGame(gameRequest);
+            serverFacade.register(newRequest);
+            serverFacade.login(newRequest);
+            serverFacade.createGame(gameRequest);
+            Collection<GameResult> gameList = serverFacade.listGames(gameRequest);
+            //String gameListed = (String) gameList.toArray()[0];
+            assertNotEquals("newgame", gameList);
         }
         catch(Exception ex)
         {
             fail();
         }
-
-        assertEquals(0, gameList.size());
     }
 
     @Test
@@ -241,17 +242,16 @@ public class ServerFacadeTests {
         newRequest.username = "grant";
         newRequest.password = "alstogra";
         newRequest.email = "grant@gmail.com";
-        ArrayList gameList = new ArrayList();
 
         GameRequest gameRequest = new GameRequest();
         gameRequest.gameName = "newgame";
 
         try {
-            facade.register(newRequest);
-            facade.login(newRequest);
-            facade.createGame(gameRequest);
-            facade.logout(newRequest);
-            gameList = facade.listGames(gameRequest);
+            serverFacade.register(newRequest);
+            serverFacade.login(newRequest);
+            serverFacade.createGame(gameRequest);
+            serverFacade.logout(newRequest);
+            Collection<GameResult> gameList = serverFacade.listGames(gameRequest);
         }
         catch(Exception ex)
         {
@@ -275,10 +275,10 @@ public class ServerFacadeTests {
         JoinGameRequest joinGameRequest = new JoinGameRequest("WHITE", 5);
 
         try {
-            facade.register(newRequest);
-            facade.login(newRequest);
-            facade.createGame(gameRequest);
-            facade.joinGame(joinGameRequest);
+            serverFacade.register(newRequest);
+            serverFacade.login(newRequest);
+            serverFacade.createGame(gameRequest);
+            serverFacade.joinGame(joinGameRequest);
         }
         catch(Exception ex)
         {
@@ -301,10 +301,10 @@ public class ServerFacadeTests {
         JoinGameRequest joinGameRequest = new JoinGameRequest("WHITE", 3);
 
         try {
-            facade.register(newRequest);
-            facade.login(newRequest);
-            facade.createGame(gameRequest);
-            facade.joinGame(joinGameRequest);
+            serverFacade.register(newRequest);
+            serverFacade.login(newRequest);
+            serverFacade.createGame(gameRequest);
+            serverFacade.joinGame(joinGameRequest);
         }
         catch(Exception ex)
         {

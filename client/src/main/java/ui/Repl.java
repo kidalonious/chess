@@ -11,11 +11,9 @@ public class Repl {
     public static String getAuth() {
         return authToken;
     }
-
     public static void setAuth(String newAuth) {
         authToken = newAuth;
     }
-
     public Repl(String serverURL) {
         loggedOutClient = new LoggedOutClient(serverURL);
         loggedInClient = new LoggedInClient(serverURL);
@@ -58,4 +56,5 @@ public class Repl {
         }
         System.exit(0);
     }
+
 }

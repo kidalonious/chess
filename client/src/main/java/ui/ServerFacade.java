@@ -44,7 +44,6 @@ public class ServerFacade {
         var path = "/user";
         var response = this.makeRequest("POST", path, registerRequest, UserResult.class, null);
         Repl.setAuth(response.authToken);
-
         return response.authToken;
     }
 
@@ -54,7 +53,8 @@ public class ServerFacade {
         return response.gameID.toString();
     }
 
-    public ArrayList<String> listGames(GameRequest gameRequest) throws ResponseException {
+    public ArrayList listGames(GameRequest gameRequest) throws ResponseException
+    {
         var path = "/game";
         return this.makeRequest("GET", path, gameRequest, ArrayList.class, Repl.getAuth());
     }

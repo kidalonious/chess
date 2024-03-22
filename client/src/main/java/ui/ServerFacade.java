@@ -2,6 +2,7 @@ package ui;
 
 import com.google.gson.Gson;
 import dataAccess.ResponseException;
+import model.GameData;
 import server.requests.*;
 import server.results.GameResult;
 import server.results.UserResult;
@@ -13,7 +14,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 public class ServerFacade {
@@ -54,12 +55,14 @@ public class ServerFacade {
         return response.gameID.toString();
     }
 
-    public Collection<GameResult> listGames(GameRequest gameRequest) throws ResponseException {
+    public Collection<GameData> listGames(GameRequest gameRequest) throws ResponseException {
         var path = "/game";
-        Collection<GameResult> games = new ArrayList<>();
-        var request = this.makeRequest("GET", path, gameRequest, GameResult.class, Repl.getAuth());
-        games.add(request);
-        return games;
+        record listGamesResult(Collection<GameData> games) {
+
+        }
+        var response = this.makeRequest("GET", path, gameRequest, listGamesResult.class, Repl.getAuth());
+
+        return response.games();
     }
 
     public void joinGame(JoinGameRequest gameRequest) throws ResponseException {

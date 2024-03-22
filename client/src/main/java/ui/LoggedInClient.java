@@ -49,17 +49,16 @@ public class LoggedInClient extends BaseClient {
 
     public String listGames(String ... params) throws ResponseException{
         GameRequest newRequest = new GameRequest();
-        StringBuilder gameList = new StringBuilder();
+
         var games = server.listGames(newRequest);
+        var result = new StringBuilder();
         int i = 1;
         for (var game : games) {
-            gameList.append("Game #").append(i).append(": ").append("\n   ").append("GameID: ").append(game.gameID).append("\n   ");
-            gameList.append("Game Name: ").append(game.gameName).append("\n   ");
-            gameList.append("White Player: ").append(game.whiteUsername).append("\n   ");
-            gameList.append("Black Player: ").append(game.blackUsername).append("\n   ");
-            i += 1;
+            result.append("#" + i).append("\n   ").append("GameID: ").append(game.gameID()).append("\n   ").append("Game Name: ").append(game.gameName()).append("\n   ");
+            result.append("White Player: ").append(game.whiteUsername()).append("\n   ").append("Black Player: ").append(game.blackUsername()).append("\n");
+            i++;
         }
-        return gameList.toString();
+        return result.toString();
 
     }
 

@@ -1,7 +1,6 @@
 package ui;
 
 import dataAccess.ResponseException;
-import model.UserData;
 import server.requests.UserRequest;
 
 import java.util.Arrays;

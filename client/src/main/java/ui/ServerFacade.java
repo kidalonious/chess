@@ -14,7 +14,6 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ServerFacade {
     private final String serverUrl;
@@ -55,16 +54,12 @@ public class ServerFacade {
         return response.gameID.toString();
     }
 
-    public HashMap<String, String> listGames(GameRequest gameRequest) throws ResponseException {
+    public ArrayList<String> listGames(GameRequest gameRequest) throws ResponseException {
         var path = "/game";
-        var response = this.makeRequest("GET", path, gameRequest, ArrayList.class, Repl.getAuth());
-        String returnValue = new Gson().toJson(response);
-        HashMap<String, String> returnMap = new HashMap<>();
-        returnMap.put("games", returnValue);
-        return returnMap;
+        return this.makeRequest("GET", path, gameRequest, ArrayList.class, Repl.getAuth());
     }
 
-    public void joinGame(GameRequest gameRequest) throws ResponseException {
+    public void joinGame(JoinGameRequest gameRequest) throws ResponseException {
         var path = "/game";
         this.makeRequest("PUT", path, gameRequest, GameResult.class, Repl.getAuth());
     }

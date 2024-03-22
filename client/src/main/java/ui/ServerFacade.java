@@ -74,13 +74,11 @@ public class ServerFacade {
             http.setRequestMethod(method);
             http.setDoOutput(true);
 
-            if(auth != null)
-            {
+            if(auth != null) {
                 http.addRequestProperty("authorization", auth);
             }
 
-            if (!method.equals("GET"))
-            {
+            if (!method.equals("GET")) {
                 writeBody(request, http);
             }
 

@@ -57,6 +57,7 @@ public class LoggedInClient extends BaseClient {
             gameList.append("Game Name: ").append(game.gameName).append("\n   ");
             gameList.append("White Player: ").append(game.whiteUsername).append("\n   ");
             gameList.append("Black Player: ").append(game.blackUsername).append("\n   ");
+            i += 1;
         }
         return gameList.toString();
 
@@ -108,8 +109,8 @@ public class LoggedInClient extends BaseClient {
     public String help()
     {
         return """
-                create <NAME> <AUTHTOKEN> - a game
-                list <AUTHTOKEN> - games
+                create <NAME> - a game
+                list - games
                 join <ID> [BLACK | WHITE | <empty>] - a game
                 observe <ID> - a game
                 logout - when you are done

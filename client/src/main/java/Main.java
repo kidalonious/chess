@@ -15,11 +15,9 @@ public class Main {
         }
         try{
             AuthDAO authDAO = new SQLAuthDAO();
-            authDAO.clear();
             GameDAO gameDAO = new SQLGameDAO();
-            gameDAO.clear();
             UserDAO userDAO = new SQLUserDAO();
-            userDAO.clear();
+
 
             new Repl(serverUrl).run();
 

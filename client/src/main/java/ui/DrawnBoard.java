@@ -93,12 +93,12 @@ public class DrawnBoard {
 
     private static void drawBoardReversed(PrintStream output, ChessBoard board) {
         headersReversed(output);
-        String[] rowHeaders = {" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", "   "};
-        for (int row = 8; row >= 0;  row--) {
+        String[] rowHeaders = {"placeholder", " 8 ", " 7 ", " 6 ", " 5 ", " 4 ", " 3 ", " 2 ", " 1 "};
+        for (int row = 1; row <= BOARD_SIZE_IN_SQUARES ;  row++) {
             output.print(SET_BG_COLOR_BLACK);
             output.print(SET_TEXT_COLOR_BLUE);
             output.print(rowHeaders[row]);
-            for (int square = 0; square < BOARD_SIZE_IN_SQUARES; square++) {
+            for (int square = 1; square <= BOARD_SIZE_IN_SQUARES; square++) {
                 setChar(board, row, square);
                 if((square + row) % 2 == 0) {
                     output.print(SET_BG_COLOR_WHITE);

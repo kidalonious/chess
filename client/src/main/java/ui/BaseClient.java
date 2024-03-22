@@ -11,7 +11,7 @@ public class BaseClient {
     }
 
     public BaseClient(String serverURL) {
-        var server = new ServerFacade(serverURL);
+        server = new ServerFacade(serverURL);
     }
     static void print() {
         System.out.print("\n" + EscapeSequences.RESET_TEXT_COLOR + ">>> " + EscapeSequences.SET_TEXT_COLOR_RED);

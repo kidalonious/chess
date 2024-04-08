@@ -29,7 +29,6 @@ public class WebSocketHandler {
     public void join_player() {
 
     }
-
     public void join_observer() {
 
     }

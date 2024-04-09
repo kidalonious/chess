@@ -31,7 +31,7 @@ public class LoggedInClient extends BaseClient {
                 case "logout" -> logout(params);
                 default -> help();
             };
-        } catch (ResponseException ex) {
+        } catch (Exception ex) {
             return ex.getMessage();
         }
     }
@@ -62,13 +62,12 @@ public class LoggedInClient extends BaseClient {
 
     }
 
-    public String joinGame(String ... params) throws ResponseException{
-        if(params.length >= 1)
-        {
+    public String joinGame(String ... params) throws Exception{
+        if (params.length >= 1) {
             GameRequest newRequest = new GameRequest();
             newRequest.gameID = Integer.parseInt(params[0]);
 
-            if(params.length == 2) {
+            if (params.length == 2) {
                 newRequest.playerColor = params[1].toUpperCase(Locale.ROOT);
             }
             JoinGameRequest joinGameRequest = new JoinGameRequest(newRequest.playerColor, newRequest.gameID);
@@ -77,13 +76,13 @@ public class LoggedInClient extends BaseClient {
 
             DrawnBoard.main(startPosition);
             Repl.state = States.INGAME;
-
+            webSocket.join_player(authToken);
             return String.format("\nYou joined the game as %s.", newRequest.playerColor);
         }
         throw new ResponseException("Expected more registration information.");
     }
 
-    public String observeGame(String... params) throws ResponseException{
+    public String observeGame(String... params) throws Exception{
         if(params.length == 1)
         {
             joinGame(params);
@@ -91,7 +90,7 @@ public class LoggedInClient extends BaseClient {
             Repl.state = States.INGAME;
             String[] startPosition = new String[]{"0"};
             DrawnBoard.main(startPosition);
-
+            webSocket.join_observer(authToken);
             return ("You joined the game as an observer");
         }
         throw new ResponseException("You cannot include a color as an observer.");

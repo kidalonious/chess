@@ -54,13 +54,24 @@ public class InGameClient extends BaseClient{
 
         throw new ResponseException("Please input a color you want to view the board from");
     }
-    public String leave(String ... params) {
+    public String leave(String ... params) throws Exception {
+        try {
+            webSocket.leave(authToken);
             Repl.state = States.LOGGEDIN;
             return "You left the game";
+        }
+        catch (Exception e) {
+            throw new ResponseException("Something went wrong");
+        }
     }
     public String make_move(String ... params) throws Exception{
-
-        throw new ResponseException("Expected different input");
+        try {
+            webSocket.makeMove(authToken);
+            return "";
+        }
+        catch (Exception e) {
+            throw new ResponseException("Expected different input");
+        }
     }
     public String resign(String ... params) throws Exception {
         if (params.length == 1) {
@@ -68,6 +79,7 @@ public class InGameClient extends BaseClient{
             System.out.println("Are you sure? [y/n]");
             String name = input.nextLine();
             if (Objects.equals(name, "y")) {
+                webSocket.resign(authToken);
                 return "You lose!";
             }
             else {

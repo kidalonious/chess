@@ -6,7 +6,7 @@ import server.requests.UserRequest;
 import java.util.Arrays;
 
 public class LoggedOutClient extends BaseClient{
-    String authToken;
+
 
     public LoggedOutClient(String serverURL) {
         super(serverURL);

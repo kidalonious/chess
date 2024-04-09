@@ -1,6 +1,7 @@
 package ui;
 
 import dataAccess.ResponseException;
+import ui.webSocket.WebSocketFacade;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -8,7 +9,10 @@ import java.util.Scanner;
 
 
 public class InGameClient extends BaseClient{
-    DrawnBoard drawnBoard;
+    WebSocketFacade webSocket;
+    public InGameClient(String serverURL) {
+        super(serverURL);
+    }
     public String eval(String input) {
         try {
             var tokens = input.toLowerCase().split(" ");

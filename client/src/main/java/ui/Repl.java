@@ -13,6 +13,7 @@ public class Repl {
     public Repl(String serverURL) {
         loggedOutClient = new LoggedOutClient(serverURL);
         loggedInClient = new LoggedInClient(serverURL);
+        inGameClient = new InGameClient(serverURL);
         authToken = "";
     }
     public static String getAuth() {

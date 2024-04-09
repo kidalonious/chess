@@ -75,7 +75,6 @@ public class InGameClient extends BaseClient{
         throw new ResponseException("Expected different input");
     }
     public String highlight(String ... params) throws Exception{
-
         throw new ResponseException("Expected different input");
     }
 }

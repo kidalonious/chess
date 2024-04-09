@@ -1,5 +1,7 @@
 package ui;
 
+import ui.webSocket.WebSocketFacade;
+
 public class BaseClient {
     private String username = null;
     ServerFacade server;

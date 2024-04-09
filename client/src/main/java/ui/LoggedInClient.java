@@ -35,10 +35,8 @@ public class LoggedInClient extends BaseClient {
         }
     }
 
-    public String createGame(String... params) throws ResponseException
-    {
-        if(params.length == 1)
-        {
+    public String createGame(String... params) throws ResponseException {
+        if(params.length == 1) {
             GameRequest newRequest = new GameRequest();
             newRequest.gameName = params[0];
 
@@ -89,7 +87,7 @@ public class LoggedInClient extends BaseClient {
         {
             joinGame(params);
 
-            //Repl.state = State.INPLAY;
+            Repl.state = States.INGAME;
             String[] startPosition = new String[]{"0"};
             DrawnBoard.main(startPosition);
 

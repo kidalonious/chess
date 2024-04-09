@@ -1,6 +1,7 @@
 package ui;
 
 import dataAccess.ResponseException;
+import ui.webSocket.ServerMessageHandler;
 import ui.webSocket.WebSocketFacade;
 
 import java.util.Arrays;
@@ -10,8 +11,20 @@ import java.util.Scanner;
 
 public class InGameClient extends BaseClient{
     WebSocketFacade webSocket;
+    ServerMessageHandler serverMessageHandler = new ServerMessageHandler();
     public InGameClient(String serverURL) {
         super(serverURL);
+        configWebSocket(serverURL);
+    }
+
+    public String configWebSocket(String serverURL) {
+        try {
+            this.webSocket = new WebSocketFacade(serverURL, serverMessageHandler);
+        }
+        catch (Exception e) {
+            return e.getMessage();
+        }
+        return "Client WebSocket Connection Succesful";
     }
     public String eval(String input) {
         try {
@@ -53,12 +66,9 @@ public class InGameClient extends BaseClient{
 
         throw new ResponseException("Please input a color you want to view the board from");
     }
-    public String leave(String ... params) throws Exception{
-        if (params.length == 1) {
+    public String leave(String ... params) {
             Repl.state = States.LOGGEDIN;
             return "You left the game";
-        }
-        throw new ResponseException("Expected different input");
     }
     public String make_move(String ... params) throws Exception{
 

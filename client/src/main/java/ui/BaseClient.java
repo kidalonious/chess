@@ -9,7 +9,7 @@ public class BaseClient {
     States state = States.LOGGEDOUT;
     private String serverUrl;
     WebSocketFacade webSocket;
-    ServerMessageHandler serverMessageHandler = new ServerMessageHandler();
+    ServerMessageHandler serverMessageHandler;
 
     public BaseClient() {
 

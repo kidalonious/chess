@@ -10,8 +10,6 @@ import java.util.Scanner;
 
 
 public class InGameClient extends BaseClient{
-    WebSocketFacade webSocket;
-    ServerMessageHandler serverMessageHandler = new ServerMessageHandler();
     public InGameClient(String serverURL) {
         super(serverURL);
         configWebSocket(serverURL);

@@ -19,11 +19,11 @@ public class ConnectionManager {
         connections.remove(authToken);
     }
 
-    public void broadcast(String excludeVisitorName, ServerMessage serverMessage) throws IOException {
+    public void broadcast(String excludeAuthToken, ServerMessage serverMessage) throws IOException {
         var removeList = new ArrayList<Connection>();
         for (var c : connections.values()) {
             if (c.session.isOpen()) {
-                if (!c.authToken.equals(excludeVisitorName)) {
+                if (!c.authToken.equals(excludeAuthToken)) {
                     c.send(serverMessage.toString());
                 }
             } else {

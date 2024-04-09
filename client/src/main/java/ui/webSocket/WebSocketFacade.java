@@ -2,8 +2,10 @@ package ui.webSocket;
 
 import com.google.gson.Gson;
 import dataAccess.DataAccessException;
+import dataAccess.ResponseException;
 import server.webSocket.WebSocketHandler;
 import webSocketMessages.serverMessages.ServerMessage;
+import webSocketMessages.userCommands.UserGameCommand;
 
 import javax.websocket.*;
 import java.io.IOException;
@@ -44,5 +46,55 @@ public class WebSocketFacade extends Endpoint {
     //Endpoint requires this method, but you don't have to do anything
     @Override
     public void onOpen(Session session, EndpointConfig endpointConfig) {
+    }
+    public void join_player(String authToken) throws Exception{
+        try {
+            UserGameCommand userGameCommand = new UserGameCommand(authToken);
+            userGameCommand.setCommandType(UserGameCommand.CommandType.JOIN_PLAYER);
+            this.session.getBasicRemote().sendText(new Gson().toJson(userGameCommand));
+        }
+        catch (Exception e) {
+            throw new ResponseException(e.getMessage());
+        }
+    }
+    public void join_observer(String authToken) throws Exception {
+        try {
+            UserGameCommand userGameCommand = new UserGameCommand(authToken);
+            userGameCommand.setCommandType(UserGameCommand.CommandType.JOIN_OBSERVER);
+            this.session.getBasicRemote().sendText(new Gson().toJson(userGameCommand));
+        }
+        catch (Exception e) {
+            throw new ResponseException(e.getMessage());
+        }
+    }
+    public void leave(String authToken) throws Exception {
+        try {
+            UserGameCommand userGameCommand = new UserGameCommand(authToken);
+            userGameCommand.setCommandType(UserGameCommand.CommandType.LEAVE);
+            this.session.getBasicRemote().sendText(new Gson().toJson(userGameCommand));
+        }
+        catch (Exception e) {
+            throw new ResponseException(e.getMessage());
+        }
+    }
+    public void resign(String authToken) throws Exception {
+        try {
+            UserGameCommand userGameCommand = new UserGameCommand(authToken);
+            userGameCommand.setCommandType(UserGameCommand.CommandType.RESIGN);
+            this.session.getBasicRemote().sendText(new Gson().toJson(userGameCommand));
+        }
+        catch (Exception e) {
+            throw new ResponseException(e.getMessage());
+        }
+    }
+    public void makeMove(String authToken) throws Exception {
+        try {
+            UserGameCommand userGameCommand = new UserGameCommand(authToken);
+            userGameCommand.setCommandType(UserGameCommand.CommandType.MAKE_MOVE);
+            this.session.getBasicRemote().sendText(new Gson().toJson(userGameCommand));
+        }
+        catch (Exception e) {
+            throw new ResponseException(e.getMessage());
+        }
     }
 }

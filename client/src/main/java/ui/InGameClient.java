@@ -31,10 +31,10 @@ public class InGameClient extends BaseClient{
         return """
                 redraw < BLACK | WHITE | OBSERVER > - the chess board
                 leave - your current game
-                move - one of your chess pieces
-                resign - your current game
+                move - move a piece in the chess game
+                resign - forfeit your current game
                 highlight - possible moves for a piece
-                help - with possible commands
+                help - show possible commands
                 """;
     }
     public String redrawBoard(String ... params) throws Exception {
@@ -47,7 +47,7 @@ public class InGameClient extends BaseClient{
             }
         }
 
-        throw new ResponseException("Expected different input");
+        throw new ResponseException("Please input a color you want to view the board from");
     }
     public String leave(String ... params) throws Exception{
         if (params.length == 1) {

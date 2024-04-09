@@ -15,6 +15,7 @@ public class LoggedInClient extends BaseClient {
 
     public LoggedInClient(String serverURL) {
         super(serverURL);
+        configWebSocket(serverURL);
     }
 
     public String eval(String input) {

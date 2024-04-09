@@ -16,16 +16,6 @@ public class InGameClient extends BaseClient{
         super(serverURL);
         configWebSocket(serverURL);
     }
-
-    public String configWebSocket(String serverURL) {
-        try {
-            this.webSocket = new WebSocketFacade(serverURL, serverMessageHandler);
-        }
-        catch (Exception e) {
-            return e.getMessage();
-        }
-        return "Client WebSocket Connection Succesful";
-    }
     public String eval(String input) {
         try {
             var tokens = input.toLowerCase().split(" ");

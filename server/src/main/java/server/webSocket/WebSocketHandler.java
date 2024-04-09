@@ -23,6 +23,7 @@ public class WebSocketHandler {
             case RESIGN -> resign();
             case MAKE_MOVE -> make_move();
             case JOIN_OBSERVER -> join_observer();
+            default -> error();
         }
     }
 
@@ -39,6 +40,9 @@ public class WebSocketHandler {
 
     }
     public void resign() {
+
+    }
+    public void error() {
 
     }
 }

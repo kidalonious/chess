@@ -2,5 +2,7 @@ package ui;
 
 public enum States {
     LOGGEDIN,
-    LOGGEDOUT
+    LOGGEDOUT,
+    INGAME,
+    WATCHING
 }

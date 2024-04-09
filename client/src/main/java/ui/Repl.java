@@ -8,6 +8,7 @@ public class Repl {
     static States state = States.LOGGEDOUT;
     public static LoggedInClient loggedInClient;
     public static LoggedOutClient loggedOutClient;
+    public static InGameClient inGameClient;
 
     public Repl(String serverURL) {
         loggedOutClient = new LoggedOutClient(serverURL);
@@ -47,6 +48,20 @@ public class Repl {
                 userInput = scanner.nextLine();
                 try {
                     method = loggedInClient.eval(userInput);
+                    System.out.print(EscapeSequences.SET_TEXT_COLOR_BLUE + method + "\n");
+                }
+                catch (Throwable e) {
+                    var message = e.toString();
+                    System.out.print(message);
+                }
+                System.out.println();
+            }
+            if (state == States.INGAME) {
+                System.out.println(inGameClient.help());
+                BaseClient.print();
+                userInput = scanner.nextLine();
+                try {
+                    method = inGameClient.eval(userInput);
                     System.out.print(EscapeSequences.SET_TEXT_COLOR_BLUE + method + "\n");
                 }
                 catch (Throwable e) {

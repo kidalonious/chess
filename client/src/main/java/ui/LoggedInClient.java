@@ -77,6 +77,7 @@ public class LoggedInClient extends BaseClient {
             String[] startPosition = new String[]{"0"};
 
             DrawnBoard.main(startPosition);
+            Repl.state = States.INGAME;
 
             return String.format("\nYou joined the game as %s.", newRequest.playerColor);
         }

@@ -14,10 +14,10 @@ import java.net.URISyntaxException;
 public class WebSocketFacade extends Endpoint {
 
     Session session;
-    WebSocketHandler notificationHandler;
+    NotificationHandler notificationHandler;
 
 
-    public WebSocketFacade(String url, WebSocketHandler notificationHandler) throws Exception {
+    public WebSocketFacade(String url, NotificationHandler notificationHandler) throws Exception {
         try {
             url = url.replace("http", "ws");
             URI socketURI = new URI(url + "/connect");
@@ -38,7 +38,9 @@ public class WebSocketFacade extends Endpoint {
             throw new DataAccessException(ex.getMessage());
         }
     }
-
+    public void send(String msg) throws Exception {
+        this.session.getBasicRemote().sendText(msg);
+    }
     //Endpoint requires this method, but you don't have to do anything
     @Override
     public void onOpen(Session session, EndpointConfig endpointConfig) {

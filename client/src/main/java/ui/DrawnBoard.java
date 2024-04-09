@@ -57,7 +57,7 @@ public class DrawnBoard {
     }
 
 
-    private static void drawSquares(PrintStream output, ChessBoard board)
+    public static void drawSquares(PrintStream output, ChessBoard board)
     {
         headers(output);
         String[] rowHeaders = {"placeholder"," 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 "};
@@ -91,7 +91,7 @@ public class DrawnBoard {
         output.println();
     }
 
-    private static void drawBoardReversed(PrintStream output, ChessBoard board) {
+    public static void drawBoardReversed(PrintStream output, ChessBoard board) {
         headers(output);
         String[] rowHeaders = {"placeholder", " 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 "};
         for (int row = 8; row > 0 ;  row--) {

@@ -28,6 +28,6 @@ public class BaseClient {
         catch (Exception e) {
             return e.getMessage();
         }
-        return "Client WebSocket Connection Successful";
+        return "Client WebSocket Connection Established";
     }
 }

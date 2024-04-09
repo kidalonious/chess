@@ -22,7 +22,7 @@ public class InGameClient extends BaseClient{
                 case "highlight" -> highlight(params);
                 default -> help();
             };
-        } catch (ResponseException ex) {
+        } catch (Exception ex) {
             return ex.getMessage();
         }
     }
@@ -72,6 +72,10 @@ public class InGameClient extends BaseClient{
                 return "Game continues.";
             }
         }
+        throw new ResponseException("Expected different input");
+    }
+    public String highlight(String ... params) throws Exception{
+
         throw new ResponseException("Expected different input");
     }
 }

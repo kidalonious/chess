@@ -21,10 +21,9 @@ public class ConnectionManager {
         connections.remove(authToken);
     }
     public void sendToRoot(String authToken, ServerMessage serverMessage) throws IOException {
-        for (var c : connections.values()) {
-            if (Objects.equals(c.authToken, authToken)) {
-                c.send(new Gson().toJson(serverMessage));
-            }
+        var c = connections.get(authToken);
+        if (c != null && c.session.isOpen()) {
+            c.send(new Gson().toJson(serverMessage));
         }
     }
 

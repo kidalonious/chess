@@ -87,13 +87,14 @@ public class SQLGameDAO implements GameDAO{
 
     public void updateGame(Integer gameID, ChessMove move) throws Exception {
         ChessGame game = getGame(gameID).game();
-        if (game.isOver) {
-            throw new ResponseException("This game is over");
+            if (game.isOver) {
+                throw new ResponseException("This game is over");
+            }
+            game.makeMove(move);
+            var statement = "UPDATE game SET game=? WHERE gameID=?";
+            executeUpdate(statement, game, gameID);
         }
-        game.makeMove(move);
-        var statement = "UPDATE game SET game=? WHERE gameID=?";
-        executeUpdate(statement, game, gameID);
-    }
+
 
     private int executeUpdate(String statement, Object... params) throws DataAccessException {
         try (var conn = DatabaseManager.getConnection()) {

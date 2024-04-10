@@ -2,6 +2,7 @@ package server;
 
 import dataAccess.DataAccessException;
 import server.handlers.*;
+import server.webSocket.WebSocketHandler;
 import spark.*;
 
 public class Server {
@@ -9,6 +10,8 @@ public class Server {
         Spark.port(desiredPort);
 
         Spark.staticFiles.location("web");
+        WebSocketHandler webSocketHandler = new WebSocketHandler();
+        Spark.webSocket("/connect", webSocketHandler);
 
         // Register your endpoints and handle exceptions here.
         //Clear

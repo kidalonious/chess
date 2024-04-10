@@ -147,6 +147,7 @@ public class WebSocketHandler {
         }
         String message = String.format("%s resigned the game", playerName);
         ServerMessage serverMessage = new Notification(message);
+        connections.sendToRoot(authToken, serverMessage);
         connections.broadcast(authToken, serverMessage);
     }
 

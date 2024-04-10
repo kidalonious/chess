@@ -1,6 +1,7 @@
 package dataAccess;
 
 import chess.ChessGame;
+import chess.ChessMove;
 import com.google.gson.Gson;
 import model.GameData;
 import model.UserData;
@@ -82,6 +83,13 @@ public class SQLGameDAO implements GameDAO{
         else return;
         String username = new SQLAuthDAO().getAuthData(authToken).username();
         executeUpdate(statement, username, request.gameID());
+    }
+
+    public void updateGame(Integer gameID, ChessMove move) throws Exception {
+        ChessGame game = getGame(gameID).game();
+        game.makeMove(move);
+        var statement = "UPDATE game SET game=? WHERE gameID=?";
+        executeUpdate(statement, game, gameID);
     }
 
     private int executeUpdate(String statement, Object... params) throws DataAccessException {

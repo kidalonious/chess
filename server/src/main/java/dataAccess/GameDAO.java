@@ -1,5 +1,6 @@
 package dataAccess;
 
+import chess.ChessMove;
 import model.GameData;
 import server.requests.JoinGameRequest;
 
@@ -12,4 +13,6 @@ public interface GameDAO {
     GameData getGame(int gameID) throws Exception;
     Collection<GameData> listGames() throws Exception;
     void joinGame(JoinGameRequest request, String authToken) throws DataAccessException;
+
+    void updateGame(Integer gameID, ChessMove move) throws Exception;
 }

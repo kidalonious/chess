@@ -1,6 +1,7 @@
 package dataAccess;
 
 import chess.ChessGame;
+import chess.ChessMove;
 import model.GameData;
 import server.requests.JoinGameRequest;
 
@@ -9,7 +10,8 @@ import java.util.HashMap;
 
 import static server.services.Service.authDAO;
 
-public class GameMemoryDAO implements GameDAO   {
+public class GameMemoryDAO //implements GameDAO   {
+{
     HashMap<Integer, GameData> gameData = new HashMap<>();
     int id = 0;
 
@@ -30,8 +32,9 @@ public class GameMemoryDAO implements GameDAO   {
     public GameData getGame(int gameID) {
         return gameData.get(gameID);
     }
-    public void updateGame(int gameID) {
-
+    public void updateGame(int gameID, ChessMove move) {
+        getGame(gameID);
+        ChessMove newMove = move;
     }
 
     public Collection<GameData> listGames() {

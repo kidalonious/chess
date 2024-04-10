@@ -3,25 +3,19 @@ package server.webSocket;
 import chess.ChessGame;
 import com.google.gson.Gson;
 import dataAccess.DataAccessException;
+import dataAccess.ResponseException;
 import dataAccess.SQLAuthDAO;
 import dataAccess.SQLGameDAO;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
-import server.Server;
-import webSocketMessages.serverMessages.Error;
+import server.services.Service;
 import webSocketMessages.serverMessages.LoadGame;
 import webSocketMessages.serverMessages.Notification;
 import webSocketMessages.serverMessages.ServerMessage;
 import webSocketMessages.userCommands.*;
-
-import java.io.IOException;
-
 @WebSocket
 public class WebSocketHandler {
-    SQLAuthDAO sqlAuthDAO;
-    SQLGameDAO sqlGameDAO;
-
     private final ConnectionManager connections = new ConnectionManager();
 
     @OnWebSocketMessage
@@ -48,18 +42,15 @@ public class WebSocketHandler {
                 JoinObserver command = new Gson().fromJson(message, JoinObserver.class);
                 join_observer(command, session);
             }
-            default: {
-                error();
-            }
         }
     }
 
     public void join_player(JoinPlayer command, Session session) throws Exception {
         String authToken = command.getAuthString();
-        LoadGame loadGame = new LoadGame(ServerMessage.ServerMessageType.LOAD_GAME, sqlGameDAO.getGame(command.gameID));
+        LoadGame loadGame = new LoadGame(ServerMessage.ServerMessageType.LOAD_GAME, Service.gameDAO.getGame(command.gameID));
         ChessGame.TeamColor playerColor = command.playerColor;
         connections.add(authToken, session);
-        String playerName = sqlAuthDAO.getAuthData(authToken).username();
+        String playerName = Service.authDAO.getAuthData(authToken).username();
         String message = String.format("%s joined the game as %s", playerName, playerColor);
         Notification serverMessage = new Notification(ServerMessage.ServerMessageType.NOTIFICATION, message);
         connections.sendToRoot(authToken, loadGame);
@@ -68,15 +59,15 @@ public class WebSocketHandler {
     public void join_observer(JoinObserver command, Session session) throws Exception {
         String authToken = command.getAuthString();
         connections.add(authToken, session);
-        String playerName = sqlAuthDAO.getAuthData(authToken).username();
+        String playerName = Service.authDAO.getAuthData(authToken).username();
         String message = String.format("%s joined the game as an observer", playerName);
         ServerMessage serverMessage = new Notification(ServerMessage.ServerMessageType.NOTIFICATION, message);
         connections.broadcast(authToken, serverMessage);
     }
     public void make_move(MakeMove command) throws Exception {
         String authToken = command.getAuthString();
-        String playerName = sqlAuthDAO.getAuthData(authToken).username();
-        sqlGameDAO.updateGame(command.gameID, command.move);
+        String playerName = Service.authDAO.getAuthData(authToken).username();
+        Service.gameDAO.updateGame(command.gameID, command.move);
         String message = String.format("%s just made a move, %s", playerName, command.move.toString());
         ServerMessage serverMessage = new Notification(ServerMessage.ServerMessageType.NOTIFICATION, message);
         connections.broadcast(authToken, serverMessage);
@@ -84,20 +75,22 @@ public class WebSocketHandler {
     public void leave(Leave command) throws Exception {
         String authToken = command.getAuthString();
         connections.remove(authToken);
-        String playerName = sqlAuthDAO.getAuthData(authToken).username();
+        String playerName = Service.authDAO.getAuthData(authToken).username();
         String message = String.format("%s left the game", playerName);
         ServerMessage serverMessage = new Notification(ServerMessage.ServerMessageType.NOTIFICATION, message);
         connections.broadcast(authToken, serverMessage);
     }
     public void resign(Resign command) throws Exception {
         String authToken = command.getAuthString();
-        String playerName = sqlAuthDAO.getAuthData(authToken).username();
+        String playerName = Service.authDAO.getAuthData(authToken).username();
         String message = String.format("%s resigned the game", playerName);
         ServerMessage serverMessage = new Notification(ServerMessage.ServerMessageType.NOTIFICATION, message);
         connections.broadcast(authToken, serverMessage);
     }
-    public void error() {
-        ServerMessage serverMessage = new Error(ServerMessage.ServerMessageType.ERROR, "There was an error");
 
-    }
+    /*@OnWebSocketError
+    public void onError(Session session, Throwable e) throws Exception {
+        session.getRemote().sendString("Websocket Error Occurred");
+    } */
+
 }

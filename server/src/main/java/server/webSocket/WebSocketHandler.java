@@ -4,6 +4,7 @@ import chess.ChessGame;
 import com.google.gson.Gson;
 import dataAccess.DataAccessException;
 import dataAccess.SQLAuthDAO;
+import dataAccess.SQLGameDAO;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
@@ -18,6 +19,7 @@ import java.io.IOException;
 @WebSocket
 public class WebSocketHandler {
     SQLAuthDAO sqlAuthDAO;
+    SQLGameDAO sqlGameDAO;
 
     private final ConnectionManager connections = new ConnectionManager();
 
@@ -71,6 +73,7 @@ public class WebSocketHandler {
     public void make_move(MakeMove command) throws Exception {
         String authToken = command.getAuthString();
         String playerName = sqlAuthDAO.getAuthData(authToken).username();
+        sqlGameDAO.updateGame(command.gameID, command.move);
         String message = String.format("%s just made a move", playerName);
         ServerMessage serverMessage = new Notification(ServerMessage.ServerMessageType.NOTIFICATION, message);
         connections.broadcast(authToken, serverMessage);

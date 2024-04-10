@@ -14,7 +14,7 @@ public class ChessGame {
     private ChessBoard board = new ChessBoard();
     private TeamColor currTeam = TeamColor.WHITE;
     private TeamColor otherTeam = TeamColor.BLACK;
-    Boolean isOver = Boolean.FALSE;
+    public Boolean isOver = Boolean.FALSE;
     public ChessGame() {
 
     }
@@ -172,6 +172,7 @@ public class ChessGame {
             for (int col = 1; col <= 8; col++) {
                 ChessPosition checkSquare = new ChessPosition(row, col);
                 if (board.getPiece(checkSquare) != null && board.getPiece(checkSquare).getTeamColor() == teamColor && validMoves(checkSquare).isEmpty() && isInCheck(teamColor)) {
+                    endGame();
                     return true;
                 }
 
@@ -192,6 +193,7 @@ public class ChessGame {
             for (int col = 1; col <= 8; col++) {
                 ChessPosition checkSquare = new ChessPosition(row, col);
                 if (board.getPiece(checkSquare) != null && board.getPiece(checkSquare).getTeamColor() == teamColor && validMoves(checkSquare).isEmpty()) {
+                    endGame();
                     return true;
                 }
 

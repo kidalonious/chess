@@ -6,6 +6,7 @@ import dataAccess.DataAccessException;
 import dataAccess.ResponseException;
 import dataAccess.SQLAuthDAO;
 import dataAccess.SQLGameDAO;
+import model.AuthData;
 import model.GameData;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketError;
@@ -28,36 +29,42 @@ public class WebSocketHandler {
             case JOIN_PLAYER: {
                 JoinPlayer command = new Gson().fromJson(message, JoinPlayer.class);
                 joinPlayer(command, session);
+                break;
             }
             case LEAVE: {
                 Leave command = new Gson().fromJson(message, Leave.class);
                 leave(command);
+                break;
             }
             case RESIGN: {
                 Resign command = new Gson().fromJson(message, Resign.class);
                 resign(command);
+                break;
             }
             case MAKE_MOVE: {
                 MakeMove command = new Gson().fromJson(message, MakeMove.class);
                 makeMove(command);
+                break;
             }
             case JOIN_OBSERVER: {
                 JoinObserver command = new Gson().fromJson(message, JoinObserver.class);
                 joinObserver(command, session);
+                break;
             }
         }
     }
 
     public void joinPlayer(JoinPlayer command, Session session) throws Exception {
         String authToken = command.getAuthString();
-        GameData game = Service.gameDAO.getGame(command.gameID);
-        if (game == null) {
+        GameData gameData = Service.gameDAO.getGame(command.gameID);
+        connections.add(authToken, session);
+        if (gameData == null) {
             Error error = new Error("Game does not exist");
             connections.sendToRoot(authToken, error);
             return;
         }
-        if ((game.whiteUsername() != null && command.playerColor == ChessGame.TeamColor.WHITE) ||
-            (game.blackUsername() != null && command.playerColor == ChessGame.TeamColor.BLACK)) {
+        if ((gameData.whiteUsername() != null && command.playerColor == ChessGame.TeamColor.WHITE) ||
+            (gameData.blackUsername() != null && command.playerColor == ChessGame.TeamColor.BLACK)) {
             Error error = new Error("That color is taken on this game");
             connections.sendToRoot(authToken, error);
             return;
@@ -66,7 +73,7 @@ public class WebSocketHandler {
             Error error = new Error("Invalid AuthToken");
             connections.sendToRoot(authToken, error);
         }
-        LoadGame loadGame = new LoadGame(game);
+        LoadGame loadGame = new LoadGame(gameData);
         ChessGame.TeamColor playerColor = command.playerColor;
         String playerName = Service.authDAO.getAuthData(authToken).username();
         String message = String.format("%s joined the game as %s", playerName, playerColor);
@@ -84,8 +91,9 @@ public class WebSocketHandler {
         connections.broadcast(authToken, serverMessage);
     }
     public void makeMove(MakeMove command) throws Exception {
-        GameData game = Service.gameDAO.getGame(command.gameID);
-        if (game.game() != null && !game.game().isOver) {
+        GameData gameData = Service.gameDAO.getGame(command.gameID);
+        AuthData authData = Service.authDAO.getAuthData(command.getAuthString());
+        if (gameData.game() != null && !gameData.game().isOver && gameData.game().isValidMove(command.move)) {
             String authToken = command.getAuthString();
             String playerName = Service.authDAO.getAuthData(authToken).username();
             Service.gameDAO.updateGame(command.gameID, command.move);

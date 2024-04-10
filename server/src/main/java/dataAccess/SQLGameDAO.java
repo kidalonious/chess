@@ -33,8 +33,9 @@ public class SQLGameDAO implements GameDAO{
 
     @Override
     public int createGame(GameData newGame) throws DataAccessException {
-        var statement = "INSERT INTO game SET gameName=?";
-        return executeUpdate(statement, newGame.gameName());
+        String game = new Gson().toJson(new ChessGame());
+        var statement = "INSERT INTO game SET gameName=?, game=?";
+        return executeUpdate(statement, newGame.gameName(), game);
     }
 
     @Override

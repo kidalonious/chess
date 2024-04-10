@@ -76,7 +76,7 @@ public class LoggedInClient extends BaseClient {
 
             DrawnBoard.main(startPosition);
             Repl.state = States.INGAME;
-            webSocket.join_player(authToken);
+            webSocket.joinPlayer(authToken);
             return String.format("\nYou joined the game as %s.", newRequest.playerColor);
         }
         throw new ResponseException("Expected more registration information.");

@@ -47,7 +47,7 @@ public class WebSocketFacade extends Endpoint {
     @Override
     public void onOpen(Session session, EndpointConfig endpointConfig) {
     }
-    public void join_player(String authToken) throws Exception{
+    public void joinPlayer(String authToken) throws Exception{
         try {
             UserGameCommand userGameCommand = new UserGameCommand(authToken);
             userGameCommand.setCommandType(UserGameCommand.CommandType.JOIN_PLAYER);

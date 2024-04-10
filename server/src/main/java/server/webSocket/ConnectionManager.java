@@ -5,6 +5,7 @@ import webSocketMessages.serverMessages.ServerMessage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ConnectionManager {
@@ -18,13 +19,20 @@ public class ConnectionManager {
     public void remove(String authToken) {
         connections.remove(authToken);
     }
+    public void sendToRoot(String authToken, ServerMessage serverMessage) throws IOException {
+        for (var c : connections.values()) {
+            if (Objects.equals(c.authToken, authToken)) {
+                c.send(serverMessage);
+            }
+        }
+    }
 
     public void broadcast(String excludeAuthToken, ServerMessage serverMessage) throws IOException {
         var removeList = new ArrayList<Connection>();
         for (var c : connections.values()) {
             if (c.session.isOpen()) {
                 if (!c.authToken.equals(excludeAuthToken)) {
-                    c.send(serverMessage.toString());
+                    c.send(serverMessage);
                 }
             } else {
                 removeList.add(c);

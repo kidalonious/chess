@@ -10,6 +10,7 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import server.Server;
 import webSocketMessages.serverMessages.Error;
+import webSocketMessages.serverMessages.LoadGame;
 import webSocketMessages.serverMessages.Notification;
 import webSocketMessages.serverMessages.ServerMessage;
 import webSocketMessages.userCommands.*;
@@ -55,11 +56,13 @@ public class WebSocketHandler {
 
     public void join_player(JoinPlayer command, Session session) throws Exception {
         String authToken = command.getAuthString();
+        LoadGame loadGame = new LoadGame(ServerMessage.ServerMessageType.LOAD_GAME, sqlGameDAO.getGame(command.gameID));
         ChessGame.TeamColor playerColor = command.playerColor;
         connections.add(authToken, session);
         String playerName = sqlAuthDAO.getAuthData(authToken).username();
         String message = String.format("%s joined the game as %s", playerName, playerColor);
         Notification serverMessage = new Notification(ServerMessage.ServerMessageType.NOTIFICATION, message);
+        connections.sendToRoot(authToken, loadGame);
         connections.broadcast(authToken, serverMessage);
     }
     public void join_observer(JoinObserver command, Session session) throws Exception {
@@ -74,7 +77,7 @@ public class WebSocketHandler {
         String authToken = command.getAuthString();
         String playerName = sqlAuthDAO.getAuthData(authToken).username();
         sqlGameDAO.updateGame(command.gameID, command.move);
-        String message = String.format("%s just made a move", playerName);
+        String message = String.format("%s just made a move, %s", playerName, command.move.toString());
         ServerMessage serverMessage = new Notification(ServerMessage.ServerMessageType.NOTIFICATION, message);
         connections.broadcast(authToken, serverMessage);
     }

@@ -2,6 +2,7 @@ package dataAccess;
 
 import chess.ChessGame;
 import chess.ChessMove;
+import com.google.gson.Gson;
 import model.GameData;
 import server.requests.JoinGameRequest;
 
@@ -41,22 +42,22 @@ public class GameMemoryDAO //implements GameDAO   {
         return gameData.values();
     }
 
-    public void joinGame(JoinGameRequest request, String authToken) {
+    public void joinGame(JoinGameRequest request, String authToken) throws DataAccessException {
         if (request.playerColor().equals("BLACK")) {
             String currentWhiteUsername = gameData.get(request.gameID()).whiteUsername();
             String currentGameName = gameData.get(request.gameID()).gameName();
             ChessGame currentGame = gameData.get(request.gameID()).game();
-            //String newBlackUser = authDAO.getAuthData(authToken).username();
-            //GameData copiedGame = new GameData(request.gameID(), currentWhiteUsername, newBlackUser, currentGameName, currentGame);
-            //gameData.replace(request.gameID(), copiedGame);
+            String newBlackUser = authDAO.getAuthData(authToken).username();
+            GameData copiedGame = new GameData(request.gameID(), currentWhiteUsername, newBlackUser, currentGameName, currentGame);
+            gameData.replace(request.gameID(), copiedGame);
         }
         else if (request.playerColor().equals("WHITE")) {
             String currentBlackUsername = gameData.get(request.gameID()).blackUsername();
             String currentGameName = gameData.get(request.gameID()).gameName();
             ChessGame currentGame = gameData.get(request.gameID()).game();
-            //String newWhiteUser = authDAO.getAuthData(authToken).username();
-            //GameData copiedGame = new GameData(request.gameID(), newWhiteUser, currentBlackUsername, currentGameName, currentGame);
-            //gameData.replace(request.gameID(), copiedGame);
+            String newWhiteUser = authDAO.getAuthData(authToken).username();
+            GameData copiedGame = new GameData(request.gameID(), newWhiteUser, currentBlackUsername, currentGameName, currentGame);
+            gameData.replace(request.gameID(), copiedGame);
         }
     }
 }

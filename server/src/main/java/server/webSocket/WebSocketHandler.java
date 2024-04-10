@@ -8,6 +8,7 @@ import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import server.Server;
+import webSocketMessages.serverMessages.Error;
 import webSocketMessages.serverMessages.Notification;
 import webSocketMessages.serverMessages.ServerMessage;
 import webSocketMessages.userCommands.*;
@@ -90,6 +91,7 @@ public class WebSocketHandler {
         connections.broadcast(authToken, serverMessage);
     }
     public void error() {
+        ServerMessage serverMessage = new Error(ServerMessage.ServerMessageType.ERROR, "There was an error");
 
     }
 }

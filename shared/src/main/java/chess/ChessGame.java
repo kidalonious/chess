@@ -14,6 +14,7 @@ public class ChessGame {
     private ChessBoard board = new ChessBoard();
     private TeamColor currTeam = TeamColor.WHITE;
     private TeamColor otherTeam = TeamColor.BLACK;
+    Boolean isOver = Boolean.FALSE;
     public ChessGame() {
 
     }
@@ -99,6 +100,9 @@ public class ChessGame {
         } else {
             throw new InvalidMoveException();
         }
+    }
+    public void endGame() {
+        this.isOver = Boolean.TRUE;
     }
 
     public boolean isValidMove(ChessMove move) {

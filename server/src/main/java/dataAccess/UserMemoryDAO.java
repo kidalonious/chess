@@ -23,13 +23,4 @@ public class UserMemoryDAO implements UserDAO {
     public UserData getUser(UserData user) {
         return userData.get(user.username());
     }
-
-    public UserData checkPassword(UserData user) throws DataAccessException {
-        if (userExists(user)) {
-            if (userData.get(user.username()).password().equals(user.password())) {
-                return user;
-            }
-        }
-        throw new DataAccessException("");
-    }
 }

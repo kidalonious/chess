@@ -45,24 +45,6 @@ public class ChessMove {
         return promotionPiece;
     }
 
-    public String toStringForPersonalTests() {
-        int startRank = startPosition.getRow();
-        int startFile = startPosition.getColumn();
-
-        int endRank = endPosition.getRow();
-        int endFile = endPosition.getColumn();
-
-        char[] files = {'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
-        StringBuilder returnString = new StringBuilder();
-        returnString.append(files[startFile]);
-        returnString.append(startRank);
-        returnString.append(files[endFile]);
-        returnString.append(endRank);
-
-        return returnString.toString();
-
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

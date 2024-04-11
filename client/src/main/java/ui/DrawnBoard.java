@@ -42,21 +42,6 @@ public class DrawnBoard {
         }
         output.println();
     }
-
-    private static void headersReversed(PrintStream output) {
-        setBlack(output);
-
-        String[] headers = {"   ", " h ", " g ", " f ", " e ", " d ", " c ", " b ", " a "};
-        for (int boardCol = 0; boardCol <= BOARD_SIZE_IN_SQUARES; boardCol++) {
-            output.print(SET_BG_COLOR_BLACK);
-            output.print(SET_TEXT_COLOR_GREEN);
-
-            output.print(headers[boardCol]);
-        }
-        output.println();
-    }
-
-
     public static void drawSquares(PrintStream output, ChessBoard board)
     {
         headers(output);

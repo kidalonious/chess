@@ -112,28 +112,10 @@ public class WebSocketHandler {
         GameData gameData = Service.gameDAO.getGame(command.gameID);
         AuthData authData = Service.authDAO.getAuthData(command.getAuthString());
         ChessMove move = command.move;
-//        if (authData == null) {
-//            Error error = new Error("Invalid AuthToken");
-//            connections.sendToRoot(command.getAuthString(), error);
-//            return;
-//        }
+
         String playerName = authData.username();
-//        if (gameData == null) {
-//            Error error = new Error("Invalid Game");
-//            connections.sendToRoot(command.getAuthString(), error);
-//            return;
-//        }
+
         ChessGame game = gameData.game();
-//        if (game.isOver) {
-//            Error error = new Error("This game is over");
-//            connections.sendToRoot(authData.authToken(), error);
-//            return;
-//        }
-//        if (!game.isValidMove(move)) {
-//            Error error = new Error("Invalid move");
-//            connections.sendToRoot(authData.authToken(), error);
-//            return;
-//        }
         String whiteUsername = gameData.whiteUsername();
         String blackUsername = gameData.blackUsername();
         if (!(Objects.equals(playerName, whiteUsername)) || !(Objects.equals(playerName, blackUsername))) {

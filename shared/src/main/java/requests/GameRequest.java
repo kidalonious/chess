@@ -12,8 +12,4 @@ public class GameRequest extends BaseRequest{
     public String authToken;
     public String gameName;
     public String playerColor;
-//    public static GameData createGameData(Request request) {
-//        String requestString = convertToString(request);
-//        return gson.fromJson(requestString, GameData.class);
-//    }
 }

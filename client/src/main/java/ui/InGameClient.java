@@ -20,7 +20,7 @@ public class InGameClient extends BaseClient{
             return switch (cmd) {
                 case "redraw" -> redrawBoard(params);
                 case "leave" -> leave(params);
-                case "move" -> make_move(params);
+                case "move" -> makeMove(params);
                 case "resign" -> resign(params);
                 case "highlight" -> highlight(params);
                 default -> help();
@@ -55,7 +55,7 @@ public class InGameClient extends BaseClient{
             throw new ResponseException("Something went wrong");
         }
     }
-    public String make_move(String ... params) throws Exception{
+    public String makeMove(String ... params) throws Exception{
         try {
             webSocket.makeMove(authToken);
             return "You made a move";

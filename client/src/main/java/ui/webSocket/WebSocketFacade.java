@@ -1,5 +1,6 @@
 package ui.webSocket;
 
+import chess.ChessGame;
 import com.google.gson.Gson;
 import dataAccess.DataAccessException;
 import dataAccess.ResponseException;
@@ -13,8 +14,10 @@ import webSocketMessages.userCommands.UserGameCommand;
 
 import javax.websocket.*;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 
 //need to extend Endpoint for websocket to work properly
 public class WebSocketFacade extends Endpoint {
@@ -45,7 +48,10 @@ public class WebSocketFacade extends Endpoint {
                         }
                         case LOAD_GAME: {
                             LoadGame loadGame = new Gson().fromJson(message, LoadGame.class);
+                            ChessGame game = loadGame.game.game();
                             System.out.println("redrawing board");
+                            PrintStream output = new PrintStream(System.out, true, StandardCharsets.UTF_8);
+                            DrawnBoard.drawSquares(output, game.getBoard());
                             break;
                         }
                         case ERROR: {

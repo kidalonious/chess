@@ -15,7 +15,7 @@ import java.util.Map;
 public class CreateGameHandler {
     public static Object handle(Request request, Response response) {
         try {
-            String usableRequest = GameRequest.convertToString(request);
+            String usableRequest = request.body(); //GameRequest.convertToString(request);
             GameData newGame = GameRequest.gson.fromJson(usableRequest, GameData.class);
             int gameID = CreateGameService.createGame(newGame, request);
             response.status(200);

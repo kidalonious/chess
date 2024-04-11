@@ -1,6 +1,9 @@
 package ui;
 
+import chess.ChessMove;
+import com.google.gson.Gson;
 import exceptions.ResponseException;
+import model.GameData;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -8,9 +11,14 @@ import java.util.Scanner;
 
 
 public class InGameClient extends BaseClient{
+    public int gameID;
     public InGameClient(String serverURL) {
         super(serverURL);
         configWebSocket(serverURL);
+    }
+
+    public void setGameData(int gameID) {
+        this.gameID = gameID;
     }
     public String eval(String input) {
         try {
@@ -57,7 +65,8 @@ public class InGameClient extends BaseClient{
     }
     public String makeMove(String ... params) throws Exception{
         try {
-            webSocket.makeMove(authToken);
+            ChessMove move = new Gson().fromJson(params[1], ChessMove.class);
+            webSocket.makeMove(authToken, gameID, move);
             return "You made a move";
         }
         catch (Exception e) {

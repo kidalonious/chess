@@ -72,6 +72,7 @@ public class LoggedInClient extends BaseClient {
 
             DrawnBoard.main(startPosition);
             Repl.state = States.INGAME;
+            Repl.inGameClient.setGameData(newRequest.gameID);
             ChessGame.TeamColor playerColor = ChessGame.TeamColor.valueOf(newRequest.playerColor);
             webSocket.joinPlayer(authToken, newRequest.gameID, playerColor);
             return String.format("\nYou joined the game as %s.", newRequest.playerColor);

@@ -37,11 +37,6 @@ public class SQLUserDAO implements UserDAO {
     }
 
     @Override
-    public boolean userExists(UserData user) {
-        return false;
-    }
-
-    @Override
     public void createUser(String username, String password, String email) throws DataAccessException {
         var statement = "INSERT INTO user (username, password, email) VALUES (?, ?, ?)";
         executeUpdate(statement, username, password, email);

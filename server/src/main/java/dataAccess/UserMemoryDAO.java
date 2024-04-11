@@ -16,10 +16,6 @@ public class UserMemoryDAO implements UserDAO {
         userData.put(user.username(), user);
     }
 
-    public boolean userExists(UserData user){
-        return userData.containsKey(user.username());
-    }
-
     public UserData getUser(UserData user) {
         return userData.get(user.username());
     }

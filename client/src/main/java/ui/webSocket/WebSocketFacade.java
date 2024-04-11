@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import dataAccess.DataAccessException;
 import dataAccess.ResponseException;
 import server.webSocket.WebSocketHandler;
+import webSocketMessages.serverMessages.Notification;
 import webSocketMessages.serverMessages.ServerMessage;
 import webSocketMessages.userCommands.UserGameCommand;
 
@@ -32,16 +33,27 @@ public class WebSocketFacade extends Endpoint {
             this.session.addMessageHandler(new MessageHandler.Whole<String>() {
                 @Override
                 public void onMessage(String message) {
-                    ServerMessage notification = new Gson().fromJson(message, ServerMessage.class);
-                    serverMessageHandler.notify(notification);
+                    ServerMessage serverMessage = new Gson().fromJson(message, ServerMessage.class);
+//                    switch (serverMessage.getServerMessageType()) {
+//                        case NOTIFICATION: {
+//                            Notification notification = new Gson().fromJson(message, Notification.class);
+//                            System.out.println(notification.message);
+//                            break;
+//                        }
+//                        case LOAD_GAME: {
+//
+//                            break;
+//                        }
+//                        case ERROR: {
+//
+//                            break;
+//                        }
+//                    }
                 }
             });
         } catch (DeploymentException | IOException | URISyntaxException ex) {
             throw new DataAccessException(ex.getMessage());
         }
-    }
-    public void send(String msg) throws Exception {
-        this.session.getBasicRemote().sendText(msg);
     }
     //Endpoint requires this method, but you don't have to do anything
     @Override
@@ -57,7 +69,7 @@ public class WebSocketFacade extends Endpoint {
             throw new ResponseException(e.getMessage());
         }
     }
-    public void join_observer(String authToken) throws Exception {
+    public void joinObserver(String authToken) throws Exception {
         try {
             UserGameCommand userGameCommand = new UserGameCommand(authToken);
             userGameCommand.setCommandType(UserGameCommand.CommandType.JOIN_OBSERVER);

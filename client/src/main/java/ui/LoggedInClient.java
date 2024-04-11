@@ -90,7 +90,7 @@ public class LoggedInClient extends BaseClient {
             Repl.state = States.INGAME;
             String[] startPosition = new String[]{"0"};
             DrawnBoard.main(startPosition);
-            webSocket.join_observer(authToken);
+            webSocket.joinObserver(authToken);
             return ("You joined the game as an observer");
         }
         throw new ResponseException("You cannot include a color as an observer.");

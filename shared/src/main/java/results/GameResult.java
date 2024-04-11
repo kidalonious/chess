@@ -1,8 +1,5 @@
 package results;
-
-import spark.Response;
-
-public class GameResult extends Response{
+public class GameResult{
 
     public Integer gameID;
     public String blackUsername;

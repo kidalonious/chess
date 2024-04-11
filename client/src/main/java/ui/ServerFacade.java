@@ -3,6 +3,7 @@ package ui;
 import com.google.gson.Gson;
 import exceptions.ResponseException;
 import model.GameData;
+import model.UserData;
 import requests.GameRequest;
 import requests.JoinGameRequest;
 import requests.UserRequest;

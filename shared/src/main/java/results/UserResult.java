@@ -1,8 +1,5 @@
 package results;
-
-import spark.Response;
-
-public class UserResult extends Response {
+public class UserResult {
     public String username;
     public String authToken;
 

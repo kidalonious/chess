@@ -180,16 +180,16 @@ public class WebSocketHandler {
         }
         ChessGame game = gameData.game();
         String playerName = authData.username();
-        if (!playerName.equals(gameData.whiteUsername()) && !playerName.equals(gameData.blackUsername())) {
+        if (!Objects.equals(playerName, gameData.whiteUsername()) && gameData.whiteUsername() != null) {
             Error error = new Error("Can't resign unless you are playing");
             connections.sendToRoot(authToken, error);
             return;
         }
-//        if (!Objects.equals(playerName, gameData.blackUsername()) && gameData.blackUsername() != null) {
-//            Error error = new Error("Can't resign unless you are playing");
-//            connections.sendToRoot(authToken, error);
-//            return;
-//        }
+        if (!Objects.equals(playerName, gameData.blackUsername()) && gameData.blackUsername() != null) {
+            Error error = new Error("Can't resign unless you are playing");
+            connections.sendToRoot(authToken, error);
+            return;
+        }
         if (game.isOver) {
             Error error = new Error("This game is already over");
             connections.sendToRoot(authToken, error);

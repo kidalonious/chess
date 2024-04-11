@@ -10,7 +10,7 @@ public class BaseClient {
     private String serverUrl;
     WebSocketFacade webSocket;
     ServerMessageHandler serverMessageHandler;
-    String authToken;
+    static String authToken;
 
     public BaseClient() {
 

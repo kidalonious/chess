@@ -1,5 +1,6 @@
 package ui;
 
+import chess.ChessGame;
 import com.google.gson.Gson;
 import dataAccess.ResponseException;
 import server.requests.GameRequest;
@@ -76,7 +77,8 @@ public class LoggedInClient extends BaseClient {
 
             DrawnBoard.main(startPosition);
             Repl.state = States.INGAME;
-            webSocket.joinPlayer(authToken);
+            ChessGame.TeamColor playerColor = ChessGame.TeamColor.valueOf(newRequest.playerColor);
+            webSocket.joinPlayer(authToken, newRequest.gameID, playerColor);
             return String.format("\nYou joined the game as %s.", newRequest.playerColor);
         }
         throw new ResponseException("Expected more registration information.");
@@ -86,11 +88,11 @@ public class LoggedInClient extends BaseClient {
         if(params.length == 1)
         {
             joinGame(params);
-
+            int gameID = Integer.parseInt(params[0]);
             Repl.state = States.INGAME;
             String[] startPosition = new String[]{"0"};
             DrawnBoard.main(startPosition);
-            webSocket.joinObserver(authToken);
+            webSocket.joinObserver(authToken, gameID);
             return ("You joined the game as an observer");
         }
         throw new ResponseException("You cannot include a color as an observer.");

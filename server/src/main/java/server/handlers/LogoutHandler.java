@@ -1,8 +1,8 @@
 package server.handlers;
 
 import com.google.gson.Gson;
-import dataAccess.DataAccessException;
-import dataAccess.UnauthorizedException;
+import exceptions.DataAccessException;
+import exceptions.UnauthorizedException;
 import server.services.LogoutService;
 import spark.Request;
 import spark.Response;

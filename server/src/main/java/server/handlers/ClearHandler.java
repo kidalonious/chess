@@ -1,11 +1,9 @@
 package server.handlers;
 
 import com.google.gson.Gson;
-import dataAccess.DataAccessException;
 import server.services.ClearService;
 import spark.*;
 
-import javax.xml.crypto.Data;
 import java.util.HashMap;
 import java.util.Map;
 

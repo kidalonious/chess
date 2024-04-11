@@ -1,7 +1,7 @@
 package server.services;
 
-import dataAccess.BadRequestException;
-import dataAccess.UnauthorizedException;
+import exceptions.BadRequestException;
+import exceptions.UnauthorizedException;
 import model.GameData;
 import spark.Request;
 

@@ -1,6 +1,6 @@
 package server.services;
 
-import dataAccess.DataAccessException;
+import exceptions.DataAccessException;
 
 public class ClearService extends Service{
     public static void clear() throws DataAccessException {

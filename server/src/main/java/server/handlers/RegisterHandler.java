@@ -1,11 +1,10 @@
 package server.handlers;
 
 import com.google.gson.Gson;
-import dataAccess.BadRequestException;
-import dataAccess.DuplicateException;
+import exceptions.BadRequestException;
+import exceptions.DuplicateException;
 import model.AuthData;
 import model.UserData;
-import server.requests.UserRequest;
 import server.services.RegisterService;
 import spark.*;
 
@@ -15,7 +14,7 @@ import java.util.Map;
 public class RegisterHandler {
     public static Object handle(Request request, Response response) {
         try {
-            UserData userData = UserRequest.createUserData(request);
+            UserData userData = new Gson().fromJson(request.body(), UserData.class);
             AuthData authData = RegisterService.register(userData);
             response.status(200);
             Gson gson = new Gson();

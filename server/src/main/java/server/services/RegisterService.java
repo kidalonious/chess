@@ -1,7 +1,7 @@
 package server.services;
 
-import dataAccess.BadRequestException;
-import dataAccess.DuplicateException;
+import exceptions.BadRequestException;
+import exceptions.DuplicateException;
 import model.AuthData;
 import model.UserData;
 

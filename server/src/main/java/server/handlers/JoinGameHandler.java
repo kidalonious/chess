@@ -1,11 +1,10 @@
 package server.handlers;
 
 import com.google.gson.Gson;
-import dataAccess.BadRequestException;
-import dataAccess.DataAccessException;
-import dataAccess.DuplicateException;
-import dataAccess.UnauthorizedException;
-import server.requests.JoinGameRequest;
+import exceptions.BadRequestException;
+import exceptions.DuplicateException;
+import exceptions.UnauthorizedException;
+import requests.JoinGameRequest;
 import server.services.JoinGameService;
 import spark.Request;
 import spark.Response;

@@ -1,8 +1,8 @@
 package dataAccess;
 
+import exceptions.DataAccessException;
 import model.AuthData;
 import model.UserData;
-import org.springframework.security.core.userdetails.User;
 
 public interface AuthDAO {
     void clear() throws DataAccessException;

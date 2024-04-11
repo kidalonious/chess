@@ -1,7 +1,7 @@
 package ui;
 
-import dataAccess.ResponseException;
-import server.requests.UserRequest;
+import exceptions.ResponseException;
+import requests.UserRequest;
 
 import java.util.Arrays;
 

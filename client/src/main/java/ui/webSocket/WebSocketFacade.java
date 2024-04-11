@@ -2,8 +2,8 @@ package ui.webSocket;
 
 import chess.ChessGame;
 import com.google.gson.Gson;
-import dataAccess.DataAccessException;
-import dataAccess.ResponseException;
+import exceptions.DataAccessException;
+import exceptions.ResponseException;
 import ui.DrawnBoard;
 import webSocketMessages.serverMessages.Error;
 import webSocketMessages.serverMessages.LoadGame;
@@ -16,10 +16,8 @@ import webSocketMessages.userCommands.UserGameCommand;
 
 import javax.websocket.*;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
 
 //need to extend Endpoint for websocket to work properly
 public class WebSocketFacade extends Endpoint {

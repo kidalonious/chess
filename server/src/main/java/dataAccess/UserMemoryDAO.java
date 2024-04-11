@@ -1,9 +1,9 @@
 package dataAccess;
 
+import exceptions.DataAccessException;
 import model.UserData;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 public class UserMemoryDAO implements UserDAO {
     public HashMap<String, UserData> userData = new HashMap<>();

@@ -1,8 +1,7 @@
 package dataAccess;
 
+import exceptions.DataAccessException;
 import model.UserData;
-
-import java.util.HashMap;
 
 public interface UserDAO {
     void clear() throws DataAccessException;

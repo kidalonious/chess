@@ -1,13 +1,8 @@
 package ui;
 
 import chess.ChessGame;
-import com.google.gson.Gson;
-import dataAccess.ResponseException;
-import server.requests.GameRequest;
-import server.requests.JoinGameRequest;
-import server.requests.UserRequest;
-import server.*;
-import server.results.GameResult;
+import exceptions.ResponseException;
+import requests.*;
 
 import java.util.Arrays;
 import java.util.Locale;

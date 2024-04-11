@@ -1,5 +1,6 @@
 package dataAccess;
 
+import exceptions.DataAccessException;
 import model.AuthData;
 import model.UserData;
 

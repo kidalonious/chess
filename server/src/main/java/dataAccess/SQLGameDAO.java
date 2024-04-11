@@ -1,13 +1,11 @@
 package dataAccess;
 
 import chess.ChessGame;
-import chess.ChessMove;
 import com.google.gson.Gson;
+import exceptions.DataAccessException;
 import model.GameData;
-import model.UserData;
-import server.requests.JoinGameRequest;
+import requests.JoinGameRequest;
 
-import javax.xml.crypto.Data;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;

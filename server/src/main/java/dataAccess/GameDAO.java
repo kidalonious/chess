@@ -1,8 +1,8 @@
 package dataAccess;
 
-import chess.ChessMove;
+import exceptions.DataAccessException;
 import model.GameData;
-import server.requests.JoinGameRequest;
+import requests.JoinGameRequest;
 
 import java.util.Collection;
 

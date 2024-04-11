@@ -1,6 +1,6 @@
 package server.services;
 
-import dataAccess.UnauthorizedException;
+import exceptions.UnauthorizedException;
 import model.AuthData;
 import model.UserData;
 

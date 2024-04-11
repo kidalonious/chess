@@ -1,6 +1,5 @@
 package server;
 
-import dataAccess.DataAccessException;
 import server.handlers.*;
 import server.webSocket.WebSocketHandler;
 import spark.*;

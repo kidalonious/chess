@@ -1,11 +1,7 @@
 package ui;
 
-import dataAccess.ResponseException;
-import ui.webSocket.ServerMessageHandler;
-import ui.webSocket.WebSocketFacade;
+import exceptions.ResponseException;
 
-import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
@@ -44,12 +40,10 @@ public class InGameClient extends BaseClient{
                 help - show possible commands
                 """;
     }
-    public String redrawBoard(String ... params) throws Exception {
-        if (params.length == 2) {
-
-        }
-
-        throw new ResponseException("Please input a color you want to view the board from");
+    public String redrawBoard(String ... params) {
+        String[] startPosition = new String[]{"0"};
+        DrawnBoard.main(startPosition);
+        return "redrawn board";
     }
     public String leave(String ... params) throws Exception {
         try {

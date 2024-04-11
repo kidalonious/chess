@@ -2,10 +2,8 @@ package server.handlers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dataAccess.DataAccessException;
-import dataAccess.UnauthorizedException;
+import exceptions.UnauthorizedException;
 import model.GameData;
-import server.requests.GameRequest;
 import server.services.ListGamesService;
 import spark.Request;
 import spark.Response;

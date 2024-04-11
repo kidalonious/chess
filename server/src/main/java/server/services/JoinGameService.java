@@ -1,9 +1,9 @@
 package server.services;
 
-import dataAccess.BadRequestException;
-import dataAccess.DuplicateException;
-import dataAccess.UnauthorizedException;
-import server.requests.JoinGameRequest;
+import exceptions.BadRequestException;
+import exceptions.DuplicateException;
+import exceptions.UnauthorizedException;
+import requests.JoinGameRequest;
 
 import java.util.Objects;
 

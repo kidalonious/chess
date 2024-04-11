@@ -1,6 +1,6 @@
 package server.services;
 
-import dataAccess.UnauthorizedException;
+import exceptions.UnauthorizedException;
 import model.GameData;
 import spark.Request;
 import spark.Response;

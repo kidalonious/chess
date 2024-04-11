@@ -1,11 +1,13 @@
 package ui;
 
 import com.google.gson.Gson;
-import dataAccess.ResponseException;
+import exceptions.ResponseException;
 import model.GameData;
-import server.requests.*;
-import server.results.GameResult;
-import server.results.UserResult;
+import requests.GameRequest;
+import requests.JoinGameRequest;
+import requests.UserRequest;
+import results.GameResult;
+import results.UserResult;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +16,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Collection;
 
 public class ServerFacade {

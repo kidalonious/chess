@@ -1,10 +1,9 @@
 package dataAccess;
 
 import chess.ChessGame;
-import chess.ChessMove;
-import com.google.gson.Gson;
+import exceptions.DataAccessException;
 import model.GameData;
-import server.requests.JoinGameRequest;
+import requests.JoinGameRequest;
 
 import java.util.Collection;
 import java.util.HashMap;

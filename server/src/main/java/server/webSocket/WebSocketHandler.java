@@ -134,18 +134,18 @@ public class WebSocketHandler {
         }
         String whiteUsername = gameData.whiteUsername();
         String blackUsername = gameData.blackUsername();
-        if (Objects.equals(playerName, whiteUsername) || Objects.equals(playerName, blackUsername)) {
-            Service.gameDAO.updateGame(command.gameID, command.move);
-            String message = String.format("%s just made a move, %s", playerName, command.move.toString());
-            ServerMessage serverMessage = new Notification(message);
-            LoadGame loadGame = new LoadGame(gameData);
-            connections.broadcast(authData.authToken(), serverMessage);
-            connections.broadcast(authData.authToken(), loadGame);
-            connections.sendToRoot(authData.authToken(), loadGame);
+        if ((!Objects.equals(playerName, whiteUsername)) || (!Objects.equals(playerName, blackUsername))) {
+            Error error = new Error("You are not playing");
+            connections.sendToRoot(authData.authToken(), error);
             return;
         }
-        Error error = new Error("You are not playing");
-        connections.sendToRoot(authData.authToken(), error);
+        Service.gameDAO.updateGame(command.gameID, command.move);
+        String message = String.format("%s just made a move, %s", playerName, command.move.toString());
+        ServerMessage serverMessage = new Notification(message);
+        LoadGame loadGame = new LoadGame(gameData);
+        connections.broadcast(authData.authToken(), serverMessage);
+        connections.broadcast(authData.authToken(), loadGame);
+        connections.sendToRoot(authData.authToken(), loadGame);
     }
     public void leave(Leave command) throws Exception {
         String authToken = command.getAuthString();

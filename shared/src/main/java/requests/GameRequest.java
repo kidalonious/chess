@@ -1,9 +1,5 @@
 package requests;
 
-//import model.GameData;
-//import model.UserData;
-//import spark.Request;
-
 public class GameRequest extends BaseRequest{
 
     public Integer gameID;

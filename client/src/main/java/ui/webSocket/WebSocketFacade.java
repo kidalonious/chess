@@ -4,7 +4,6 @@ import chess.ChessGame;
 import com.google.gson.Gson;
 import dataAccess.DataAccessException;
 import dataAccess.ResponseException;
-import server.webSocket.WebSocketHandler;
 import ui.DrawnBoard;
 import webSocketMessages.serverMessages.Error;
 import webSocketMessages.serverMessages.LoadGame;

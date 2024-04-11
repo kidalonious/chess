@@ -4,6 +4,9 @@ import com.google.gson.Gson;
 import dataAccess.DataAccessException;
 import dataAccess.ResponseException;
 import server.webSocket.WebSocketHandler;
+import ui.DrawnBoard;
+import webSocketMessages.serverMessages.Error;
+import webSocketMessages.serverMessages.LoadGame;
 import webSocketMessages.serverMessages.Notification;
 import webSocketMessages.serverMessages.ServerMessage;
 import webSocketMessages.userCommands.UserGameCommand;
@@ -34,21 +37,23 @@ public class WebSocketFacade extends Endpoint {
                 @Override
                 public void onMessage(String message) {
                     ServerMessage serverMessage = new Gson().fromJson(message, ServerMessage.class);
-//                    switch (serverMessage.getServerMessageType()) {
-//                        case NOTIFICATION: {
-//                            Notification notification = new Gson().fromJson(message, Notification.class);
-//                            System.out.println(notification.message);
-//                            break;
-//                        }
-//                        case LOAD_GAME: {
-//
-//                            break;
-//                        }
-//                        case ERROR: {
-//
-//                            break;
-//                        }
-//                    }
+                    switch (serverMessage.getServerMessageType()) {
+                        case NOTIFICATION: {
+                            Notification notification = new Gson().fromJson(message, Notification.class);
+                            System.out.println(notification.message);
+                            break;
+                        }
+                        case LOAD_GAME: {
+                            LoadGame loadGame = new Gson().fromJson(message, LoadGame.class);
+                            System.out.println("redrawing board");
+                            break;
+                        }
+                        case ERROR: {
+                            Error error = new Gson().fromJson(message, Error.class);
+                            System.out.println(error.errorMessage);
+                            break;
+                        }
+                    }
                 }
             });
         } catch (DeploymentException | IOException | URISyntaxException ex) {

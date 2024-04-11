@@ -197,6 +197,8 @@ public class WebSocketHandler {
         }
         String message = String.format("%s resigned the game", playerName);
         game.endGame();
+        GameData newGame = new GameData(gameData.gameID(), gameData.whiteUsername(), gameData.blackUsername(), gameData.gameName(), game);
+        Service.gameDAO.updateGame(newGame);
         ServerMessage serverMessage = new Notification(message);
         connections.sendToRoot(authToken, serverMessage);
         connections.broadcast(authToken, serverMessage);

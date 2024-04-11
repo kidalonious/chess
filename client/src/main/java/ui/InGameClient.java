@@ -4,6 +4,8 @@ import dataAccess.ResponseException;
 import ui.webSocket.ServerMessageHandler;
 import ui.webSocket.WebSocketFacade;
 
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
@@ -44,12 +46,7 @@ public class InGameClient extends BaseClient{
     }
     public String redrawBoard(String ... params) throws Exception {
         if (params.length == 2) {
-            if (Objects.equals(params[1], "black")) {
-                //return DrawBoardReversed
-            }
-            else {
-                //return DrawBoard
-            }
+
         }
 
         throw new ResponseException("Please input a color you want to view the board from");
@@ -74,19 +71,16 @@ public class InGameClient extends BaseClient{
         }
     }
     public String resign(String ... params) throws Exception {
-        if (params.length == 1) {
-            var input = new Scanner(System.in);
-            System.out.println("Are you sure? [y/n]");
-            String name = input.nextLine();
-            if (Objects.equals(name, "y")) {
-                webSocket.resign(authToken);
-                return "You lose!";
-            }
-            else {
-                return "Game continues.";
-            }
+        var input = new Scanner(System.in);
+        System.out.println("Are you sure? [y/n]");
+        String name = input.nextLine();
+        if (Objects.equals(name, "y")) {
+            webSocket.resign(authToken);
+            return "You lose!";
         }
-        throw new ResponseException("Expected different input");
+        else {
+            return "Game continues.";
+        }
     }
     public String highlight(String ... params) throws Exception{
         throw new ResponseException("Expected different input");

@@ -120,4 +120,7 @@ public class WebSocketFacade extends Endpoint {
             throw new ResponseException(e.getMessage());
         }
     }
+    public void redraw(String authToken) {
+
+    }
 }

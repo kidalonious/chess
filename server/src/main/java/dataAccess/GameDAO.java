@@ -14,5 +14,5 @@ public interface GameDAO {
     Collection<GameData> listGames() throws Exception;
     void joinGame(JoinGameRequest request, String authToken) throws DataAccessException;
 
-    void updateGame(Integer gameID, ChessMove move) throws Exception;
+    void updateGame(int gameID, ChessMove move) throws Exception;
 }

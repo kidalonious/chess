@@ -86,7 +86,7 @@ public class SQLGameDAO implements GameDAO{
         executeUpdate(statement, username, request.gameID());
     }
 
-    public void updateGame(Integer gameID, ChessMove move) throws Exception {
+    public void updateGame(int gameID, ChessMove move) throws Exception {
         ChessGame game = getGame(gameID).game();
         game.makeMove(move);
         var statement = "UPDATE game SET game=? WHERE gameID=?";

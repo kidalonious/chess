@@ -52,8 +52,9 @@ public class WebSocketFacade extends Endpoint {
                             LoadGame loadGame = new Gson().fromJson(message, LoadGame.class);
                             ChessGame game = loadGame.game.game();
                             System.out.println("redrawing board");
-                            PrintStream output = new PrintStream(System.out, true, StandardCharsets.UTF_8);
-                            DrawnBoard.drawSquares(output, game.getBoard());
+                            String[] startPosition = new String[]{"0"};
+
+                            DrawnBoard.main(startPosition);
                             break;
                         }
                         case ERROR: {
@@ -92,7 +93,7 @@ public class WebSocketFacade extends Endpoint {
     }
     public void leave(String authToken) throws Exception {
         try {
-            Leave leave = new Leave(authToken);
+            Leave leave = new Leave(authToken, 2);
             this.session.getBasicRemote().sendText(new Gson().toJson(leave));
         }
         catch (Exception e) {

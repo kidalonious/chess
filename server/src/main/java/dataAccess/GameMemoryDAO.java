@@ -33,9 +33,8 @@ public class GameMemoryDAO //implements GameDAO   {
     public GameData getGame(int gameID) {
         return gameData.get(gameID);
     }
-    public void updateGame(int gameID, ChessMove move) {
-        getGame(gameID);
-        ChessMove newMove = move;
+    public void updateGame(GameData gameData) {
+        ChessGame newGame = gameData.game();
     }
 
     public Collection<GameData> listGames() {

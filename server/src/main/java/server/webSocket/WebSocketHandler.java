@@ -1,6 +1,7 @@
 package server.webSocket;
 
 import chess.ChessGame;
+import chess.ChessMove;
 import com.google.gson.Gson;
 import dataAccess.DataAccessException;
 import dataAccess.ResponseException;
@@ -115,31 +116,39 @@ public class WebSocketHandler {
     public void makeMove(MakeMove command) throws Exception {
         GameData gameData = Service.gameDAO.getGame(command.gameID);
         AuthData authData = Service.authDAO.getAuthData(command.getAuthString());
-        if (authData == null) {
-            Error error = new Error("Invalid AuthToken");
-            connections.sendToRoot(command.getAuthString(), error);
-            return;
-        }
+        ChessMove move = command.move;
+//        if (authData == null) {
+//            Error error = new Error("Invalid AuthToken");
+//            connections.sendToRoot(command.getAuthString(), error);
+//            return;
+//        }
         String playerName = authData.username();
-        if (gameData == null) {
-            Error error = new Error("Invalid Game");
-            connections.sendToRoot(command.getAuthString(), error);
-            return;
-        }
+//        if (gameData == null) {
+//            Error error = new Error("Invalid Game");
+//            connections.sendToRoot(command.getAuthString(), error);
+//            return;
+//        }
         ChessGame game = gameData.game();
-        if (game.isOver) {
-            Error error = new Error("This game is over");
-            connections.sendToRoot(authData.authToken(), error);
-            return;
-        }
+//        if (game.isOver) {
+//            Error error = new Error("This game is over");
+//            connections.sendToRoot(authData.authToken(), error);
+//            return;
+//        }
+//        if (!game.isValidMove(move)) {
+//            Error error = new Error("Invalid move");
+//            connections.sendToRoot(authData.authToken(), error);
+//            return;
+//        }
         String whiteUsername = gameData.whiteUsername();
         String blackUsername = gameData.blackUsername();
-        if ((!Objects.equals(playerName, whiteUsername)) || (!Objects.equals(playerName, blackUsername))) {
+        if (!(Objects.equals(playerName, whiteUsername)) || !(Objects.equals(playerName, blackUsername))) {
             Error error = new Error("You are not playing");
             connections.sendToRoot(authData.authToken(), error);
             return;
         }
-        Service.gameDAO.updateGame(command.gameID, command.move);
+        game.makeMove(move);
+        GameData newGame = new GameData(gameData.gameID(), gameData.whiteUsername(), gameData.blackUsername(), gameData.gameName(), game);
+        Service.gameDAO.updateGame(newGame);
         String message = String.format("%s just made a move, %s", playerName, command.move.toString());
         ServerMessage serverMessage = new Notification(message);
         LoadGame loadGame = new LoadGame(gameData);
@@ -183,6 +192,7 @@ public class WebSocketHandler {
         }
         if (game.isOver) {
             Error error = new Error("This game is already over");
+            connections.sendToRoot(authToken, error);
             return;
         }
         String message = String.format("%s resigned the game", playerName);

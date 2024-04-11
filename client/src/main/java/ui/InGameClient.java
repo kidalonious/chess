@@ -67,7 +67,7 @@ public class InGameClient extends BaseClient{
     public String make_move(String ... params) throws Exception{
         try {
             webSocket.makeMove(authToken);
-            return "";
+            return "You made a move";
         }
         catch (Exception e) {
             throw new ResponseException("Expected different input");

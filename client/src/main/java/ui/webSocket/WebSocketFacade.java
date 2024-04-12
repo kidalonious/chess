@@ -96,11 +96,10 @@ public class WebSocketFacade extends Endpoint {
             throw new ResponseException(e.getMessage());
         }
     }
-    public void resign(String authToken) throws Exception {
+    public void resign(String authToken, int gameID) throws Exception {
         try {
-            UserGameCommand userGameCommand = new UserGameCommand(authToken);
-            userGameCommand.setCommandType(UserGameCommand.CommandType.RESIGN);
-            this.session.getBasicRemote().sendText(new Gson().toJson(userGameCommand));
+            Resign resign = new Resign(authToken, gameID);
+            this.session.getBasicRemote().sendText(new Gson().toJson(resign));
         }
         catch (Exception e) {
             throw new ResponseException(e.getMessage());

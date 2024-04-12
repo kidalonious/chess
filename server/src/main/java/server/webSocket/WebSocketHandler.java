@@ -104,9 +104,9 @@ public class WebSocketHandler {
         String playerName = authData.username();
         String message = String.format("%s joined the game as an observer", playerName);
         ServerMessage serverMessage = new Notification(message);
+        connections.broadcast(authToken, serverMessage);
         LoadGame loadGame = new LoadGame(gameData);
         connections.sendToRoot(authToken, loadGame);
-        connections.broadcast(authToken, serverMessage);
     }
     public void makeMove(MakeMove command) throws Exception {
         GameData gameData = Service.gameDAO.getGame(command.gameID);

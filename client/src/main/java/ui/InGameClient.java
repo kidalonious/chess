@@ -78,7 +78,7 @@ public class InGameClient extends BaseClient{
         System.out.println("Are you sure? [y/n]");
         String name = input.nextLine();
         if (Objects.equals(name, "y")) {
-            webSocket.resign(authToken);
+            webSocket.resign(authToken, gameID);
             return "You lose!";
         }
         else {
